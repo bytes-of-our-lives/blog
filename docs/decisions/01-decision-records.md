@@ -31,7 +31,7 @@ structure.**
 
 Each file:
 
-- Has a short, descriptive filename like `001-markdown-decision-records.md`
+- Has a short, descriptive filename like `01-recording-decisions.md`
 - Begins with a title that combines the problem-space and chosen approach
 - Opens with a paragraph introducing the problem, without stating the decision
 - Includes a `## Context` section with relevant background and explored options

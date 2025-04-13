@@ -20,9 +20,10 @@ These documents should feel like a clear, helpful explanation from one teammate 
 templates. They’re practical, conversational, and tightly written.
 
 Please extract **a single decision** from the conversation above and return the following:
-• A **Markdown file** containing the decision in the format described below.
-• A **short filename**, like `001-markdown-decision-records.md`, that captures the essence of the decision in just a few
-words. Avoid bloated or overly descriptive filenames.
+
+- A **Markdown file** containing the decision in the format described below.
+- A **short filename**, like `01-recording-decisions.md`, that captures the essence of the decision in just a few words.
+  Avoid bloated or overly descriptive filenames.
 
 # Format Instructions
 
@@ -54,5 +55,5 @@ Each file should include:
 - Avoid rigid boilerplate like status markers, dates, or CLI-driven numbering schemes.
 - Markdown is our native language — use it naturally and cleanly.
 
-⚠️ Only return the filename and Markdown file content — nothing else.
+⚠️ Only return the filename and Markdown file content (in a Canvas) — nothing else.
 ```

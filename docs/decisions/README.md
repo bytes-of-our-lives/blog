@@ -19,9 +19,9 @@ give us a clear trail when we want to revisit or improve something later.
 
 ## Authoring New Decisions
 
-All decisions follow the format and tone defined in [the first decision record](./001-decision-records). When you’re
+All decisions follow the format and tone defined in [the first decision record](./01-decision-records). When you’re
 ready to add a new decision, create a new Markdown file in this folder and name it something like
-`NNN-kebab-case-identifier.md`. Do read the referenced decision record first, as it contains important instructions on
+`00-kebab-case-identifier.md`. Do read the referenced decision record first, as it contains important instructions on
 how to write these documents.
 
 If you're drafting a new record or back-filling an old one, you can use the [ChatGPT prompt][chatgpt-prompt] below to
@@ -38,4 +38,4 @@ keep track of what’s been documented and makes it easier to find specific deci
 
 This section should be updated whenever a new decision file is added:
 
-1. [Capture project decisions using Markdown-based records](./001-decision-records)
+1. [Capture project decisions using Markdown-based records](./01-decision-records)
