@@ -41,3 +41,4 @@ This section should be updated whenever a new decision file is added:
 1. [Capture project decisions using Markdown-based records](./01-decision-records.md)
 2. [Power Our Blog Using a Static-Site Generator](./02-git-first-blogging.md)
 3. [Hugo as Our Static-Site Generator](./03-hugo-site-generator.md)
+4. [GitHub Pages for Blog Hosting (Initially)](./04-hosting-on-github-pages.md)
