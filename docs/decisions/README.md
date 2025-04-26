@@ -39,3 +39,4 @@ keep track of what’s been documented and makes it easier to find specific deci
 This section should be updated whenever a new decision file is added:
 
 1. [Capture project decisions using Markdown-based records](./01-decision-records.md)
+2. [Power Our Blog Using a Static-Site Generator](./02-git-first-blogging.md)
