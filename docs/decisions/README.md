@@ -3,7 +3,7 @@
 This folder contains lightweight, Markdown-based records of important decisions we've made about how we build, publish,
 and maintain this blog.
 
-These documents are written for **future teammates and maintainers** — including our future selves—so we can understand
+These documents are written for **future teammates and maintainers**, including our future selves, so we can understand
 the reasoning behind decisions that aren’t obvious from code or config alone.
 
 They’re not formal, they’re not bureaucratic, and they don’t require ceremony. Just enough structure to stay consistent
@@ -24,8 +24,8 @@ ready to add a new decision, create a new Markdown file in this folder and name 
 `00-kebab-case-identifier.md`. Do read the referenced decision record first, as it contains important instructions on
 how to write these documents.
 
-If you're drafting a new record or back-filling an old one, you can use the [ChatGPT prompt][chatgpt-prompt] below to
-generate a clean starting point. Just drop it into the chat with the relevant context or conversation.
+If you're drafting a new record or backfilling an old one, you can use [this ChatGPT prompt][chatgpt-prompt] to generate
+a clean starting point; it is ready to be dropped into a chat with the relevant context or conversation.
 
 [chatgpt-prompt]: prompts.md#extracting-a-decision-record
 
