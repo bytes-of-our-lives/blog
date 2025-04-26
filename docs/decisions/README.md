@@ -43,3 +43,4 @@ This section should be updated whenever a new decision file is added:
 3. [Hugo as Our Static-Site Generator](./03-hugo-site-generator.md)
 4. [GitHub Pages for Blog Hosting (Initially)](./04-hosting-on-github-pages.md)
 5. [Enforce Consistent Writing Style with Vale](./05-style-linting-with-vale.md)
+6. [Publish Continuously from the `main` Branch (with Meaningful Release Tags)](./06-publishing-continuously.md)
