@@ -3,7 +3,7 @@
 This folder contains lightweight, Markdown-based records of important decisions we've made about how we build, publish,
 and maintain this blog.
 
-These documents are written for **future teammates and maintainers** — including our future selves—so we can understand
+These documents are written for **future teammates and maintainers**, including our future selves, so we can understand
 the reasoning behind decisions that aren’t obvious from code or config alone.
 
 They’re not formal, they’re not bureaucratic, and they don’t require ceremony. Just enough structure to stay consistent
@@ -19,13 +19,13 @@ give us a clear trail when we want to revisit or improve something later.
 
 ## Authoring New Decisions
 
-All decisions follow the format and tone defined in [the first decision record](./01-decision-records). When you’re
+All decisions follow the format and tone defined in [the first decision record](./01-decision-records.md). When you’re
 ready to add a new decision, create a new Markdown file in this folder and name it something like
 `00-kebab-case-identifier.md`. Do read the referenced decision record first, as it contains important instructions on
 how to write these documents.
 
-If you're drafting a new record or back-filling an old one, you can use the [ChatGPT prompt][chatgpt-prompt] below to
-generate a clean starting point. Just drop it into the chat with the relevant context or conversation.
+If you're drafting a new record or backfilling an old one, you can use [this ChatGPT prompt][chatgpt-prompt] to generate
+a clean starting point; it is ready to be dropped into a chat with the relevant context or conversation.
 
 [chatgpt-prompt]: prompts.md#extracting-a-decision-record
 
@@ -38,4 +38,9 @@ keep track of what’s been documented and makes it easier to find specific deci
 
 This section should be updated whenever a new decision file is added:
 
-1. [Capture project decisions using Markdown-based records](./01-decision-records)
+1. [Capture project decisions using Markdown-based records](./01-decision-records.md)
+2. [Power Our Blog Using a Static-Site Generator](./02-git-first-blogging.md)
+3. [Hugo as Our Static-Site Generator](./03-hugo-site-generator.md)
+4. [GitHub Pages for Blog Hosting (Initially)](./04-hosting-on-github-pages.md)
+5. [Enforce Consistent Writing Style with Vale](./05-style-linting-with-vale.md)
+6. [Publish Continuously from the `main` Branch (with Meaningful Release Tags)](./06-publishing-continuously.md)

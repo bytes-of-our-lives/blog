@@ -28,21 +28,21 @@ get started:
 We aim for:
 
 - A conversational, tech-savvy tone.
-- Humor that feels natural — not forced.
+- Humour that feels natural — not forced.
 - Practical takeaways, real-world war stories, and honest reflections.
 
 Posts should feel like advice you'd give a peer over coffee (or debugging logs).
 
 ### 📐 Style and Quality
 
-We plan to adopt [Vale](https://vale.sh) for automated style enforcement. This will help us maintain consistent tone,
+We plan to adopt [Vale](https://vale.sh) for automated style enforcement. This will help us maintain a consistent tone,
 clarity, and formatting — but it’s not yet wired into the pipeline.
 
 In the meantime, we encourage:
 
 - **Using GPTs to help shape and refine drafts.** Whether brainstorming an intro, cleaning up clunky phrases, or
   rewording a technical explanation — AI tools can help emit more polished, uniform English.
-- Prompts should preserve Markdown and Hugo syntax, and maintain our preferred tone: thoughtful, punchy, and friendly.
+- Prompts should preserve Markdown and Hugo syntax and maintain our preferred tone: thoughtful, punchy, and friendly.
 - When in doubt, ask another author to review. We're here to help each other write better.
 
 > [!TIP]
@@ -53,7 +53,7 @@ In the meantime, we encourage:
 We're working toward a more complete authoring guide, pre-publish checklists, and automation for preview environments.
 Until then, keep things simple, and when in doubt — write it down.
 
-Stay curious, write often, and don’t forget to laugh at your own bugs.
+Stay curious, write often, and remember to laugh at your own bugs.
 
 — The Bytes of our Lives Team 🧵
 
