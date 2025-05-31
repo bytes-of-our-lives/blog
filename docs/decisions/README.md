@@ -45,3 +45,4 @@ This section should be updated whenever a new decision file is added:
 5. [Enforce Consistent Writing Style with Vale](./05-style-linting-with-vale.md)
 6. [Publish Continuously from the `main` Branch (with Meaningful Release Tags)](./06-publishing-continuously.md)
 7. [Manage Themes Using Hugo Modules](./07-hugo-modules-for-themes.md)
+8. [Asynchronous Content Lifecycle via GitHub Issues & Pull‑Requests](./08-async-content-lifecycle-with-github.md)
