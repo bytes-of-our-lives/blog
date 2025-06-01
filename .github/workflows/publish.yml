@@ -12,14 +12,6 @@ on:
     branches: ["main"]  # The main branch contains production-ready content only.
   workflow_dispatch:    # Enables manual deployments for testing or emergency fixes.
 
-# Permissions
-# ───────────────────
-# GitHub's principle of least privilege applied to token permissions.
-permissions:
-  contents: read        # Source access needed but no content modification required.
-  pages: write          # Required to publish to GitHub Pages destination.
-  id-token: write       # Enables secure deployment without storing credentials.
-
 # Concurrency
 # ───────────────────
 # Prevents race conditions with multiple deploys changing site URL references.
@@ -42,6 +34,8 @@ jobs:
   # Pre-building static assets offloads compute resources from the deployment environment
   # and allows for high-fidelity testing of build output before publishing.
   build:
+    permissions:
+      contents: read    # Only needs read access to checkout repository contents.
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.128.0  # Pinned for reproducible builds.
@@ -87,6 +81,9 @@ jobs:
   # ───────────────
   # Isolated deployment stage for security boundary and deployment tracking.
   deploy:
+    permissions:
+      pages: write      # Required for publishing to GitHub Pages.
+      id-token: write   # Required for interacting with GitHub deployments.
     environment:
       name: github-pages
       # Dynamic URL ensures links remain correct if the repository or branch changes.
