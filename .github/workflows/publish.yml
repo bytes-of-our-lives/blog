@@ -33,23 +33,27 @@ jobs:
   # ───────────────
   # Pre-building static assets offloads compute resources from the deployment environment
   # and allows for high-fidelity testing of build output before publishing.
+  #
+  # See <https://gohugo.io/installation/linux/#prerequisites> for Hugo installation details.
   build:
     permissions:
       contents: read    # Only needs read access to checkout repository contents.
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.128.0  # Pinned for reproducible builds.
     steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-
       # Hugo requires Go to manage its modules (themes, plugins, and the likes).
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: 'stable'    # Always use the latest stable version of Go.
+
+      - name: Install Hugo CLI
+        run: |
+          LATEST_TAG=$(gh release view --repo gohugoio/hugo --json tagName -q .tagName)
+          echo "Installing Hugo version $LATEST_TAG"
+          ASSET_NAME="hugo_extended_${LATEST_TAG#v}_linux-amd64.deb"
+          ASSET_URL=$(gh release view "$LATEST_TAG" --repo gohugoio/hugo --json assets -q ".assets[] | select(.name==\"$ASSET_NAME\") | .url")
+          wget -O ${{ runner.temp }}/hugo.deb "$ASSET_URL"
+          sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
       - name: Checkout repository
         uses: actions/checkout@v4
