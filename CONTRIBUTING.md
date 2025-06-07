@@ -21,7 +21,7 @@ Make sure these are installed and available in your terminal before starting.
     - Outline your concept, goals, and any early thoughts.
 
 2. **Drafting**
-    - Create a branch named `article/your-topic-slug`.
+    - Create a branch named `content/your-topic-slug`.
     - Draft your post in `content/posts/` directory.
     - Use Hugo front-matter and Markdown.
     - Read [Writing Tips](#writing-tips) for more guidance.
@@ -46,7 +46,7 @@ Content is made of several artefacts that follow a consistent naming scheme to k
 - **Filename:** Use a short, lowercase, hyphenated slug based on the topic.
 - **Issues:** Start with a present-participle verb (e.g. "Writing", "Thinking", "Discussing") followed by the topic.
   This signals ongoing work or ideation.
-- **Branches:** Always start with `article/` followed by the slug.
+- **Branches:** Always start with `content/` followed by the slug.
 - **PRs:** Start with an imperative-mood verb (e.g., "Publish", "Blog about") followed by the topic.
   This signals the content is ready for review or publication.
 

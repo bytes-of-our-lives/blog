@@ -34,12 +34,12 @@ Each post will flow through three GitHub artefacts, tracked on the Projects boar
 | Phase                 | Artifact     | Naming Convention                       | Project Column           |
 |-----------------------|--------------|-----------------------------------------|--------------------------|
 | Ideation & outline    | Issue        | Present-participle verb + TOPIC         | Ideation / Drafting      |
-| Drafting & edits      | Branch       | Prefixed by `article/`                  | In Progress (Issue card) |
+| Drafting & edits      | Branch       | Prefixed by `content/`                  | In Progress (Issue card) |
 | Peer review & publish | Pull Request | Publish or imperative-mood verb + TOPIC | In Review → Published    |
 
 For example, an Issue might be titled “Writing about George Stephanopoulos” following the present-participle verb
 convention.
-The corresponding branch could be named `article/george-stephanopoulos`, and the Pull Request would be titled “Publish
+The corresponding branch could be named `content/george-stephanopoulos`, and the Pull Request would be titled “Publish
 about George Stephanopoulos” or "Publish The One with George Stephanopoulos".
 
 Cards are moved manually by the author or reviewer; no automation touches them for now.
@@ -66,7 +66,7 @@ Here are some examples:
 - "Ranting about the state of devops"
 - "Discussing Golang concurrency primitives"
 
-Branches **always** start with `article/` followed by a slug version of the topic: short, lowercase, and hyphenated,
+Branches **always** start with `content/` followed by a slug version of the topic: short, lowercase, and hyphenated,
 like the file name.
 
 Pull Requests **always** start with an _imperative-mood_ verb that reflects the action of making the content live, such
