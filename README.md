@@ -1,5 +1,7 @@
 # 📚 Bytes of our Lives — Tech Blog Repository
 
+[![Deploy Hugo Site to GitHub Pages](https://github.com/bytes-of-our-lives/blog/actions/workflows/publish.yml/badge.svg)](https://github.com/bytes-of-our-lives/blog/actions/workflows/publish.yml)
+
 Welcome to the repo behind **"Bytes of our Lives"** — a blog about building, breaking, and occasionally fixing things in
 the world of software development, technical leadership, and startup life. This space is where we turn our hard-earned
 lessons into practical, witty, and insightful content.
