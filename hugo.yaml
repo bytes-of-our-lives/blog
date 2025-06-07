@@ -1,0 +1,18 @@
+# Hugo configuration file
+#
+# See all settings at <https://gohugo.io/configuration/all/>.
+
+# The title of your site, displayed in the browser title bar and header.
+title: "Bytes of our Lives 👾"
+
+# The absolute URL of your published site including the protocol, host, path, and a trailing slash.
+# Uncomment when using a custom domain.
+# baseURL: https://example.org/
+
+# The site’s language tag, conforming to the syntax described in RFC 5646.
+languageCode: en-us
+
+# Configure modules (themes, plugins, etc.) for Hugo.
+module:
+  imports:
+    - path: github.com/spf13/hyde

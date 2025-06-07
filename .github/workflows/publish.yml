@@ -1,0 +1,96 @@
+# ───────────────────
+# Hugo Site Deployment
+# ───────────────────
+# Automating the build and deployment process ensures consistent publishing
+# while eliminating manual steps that could introduce errors.
+name: Deploy Hugo Site to GitHub Pages
+
+# Triggers
+# ───────────────────
+on:
+  push:
+    branches: ["main"]  # The main branch contains production-ready content only.
+  workflow_dispatch:    # Enables manual deployments for testing or emergency fixes.
+
+# Concurrency
+# ───────────────────
+# Prevents race conditions with multiple deploys changing site URL references.
+# Allowing in-progress runs to finish avoids broken partial deploys of live content.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Ensures Hugo commands and shell expansions work identically across Linux/macOS runners.
+# Avoids PowerShell inconsistencies with variable expansion in Windows runners.
+defaults:
+  run:
+    shell: bash
+
+# Jobs
+# ───────────────────
+jobs:
+  # Build Job
+  # ───────────────
+  # Pre-building static assets offloads compute resources from the deployment environment
+  # and allows for high-fidelity testing of build output before publishing.
+  build:
+    permissions:
+      contents: read    # Only needs read access to checkout repository contents.
+    runs-on: ubuntu-latest
+    steps:
+      # Hugo requires Go to manage its modules (themes, plugins, and the likes).
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'    # Always use the latest stable version of Go.
+
+      # This is a very common community action to install Hugo.
+      # Nonetheless, see <https://gohugo.io/installation/linux/#prerequisites> for manual details.
+      - name: Hugo setup
+        uses: peaceiris/actions-hugo@v3.0.0
+        with:
+          hugo-version: 'latest'  # Always use the latest stable version of Hugo (according to Homebrew).
+          extended: true          # Required for SCSS/SASS support in themes.
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # Full history is needed for accurate versioning (e.g. .GitInfo, .LastMod, enableGitInfo).
+
+      - name: Setup GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build Hugo site
+        env:
+          # Using runner.temp ensures cache isolation between workflow runs.
+          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+          # Production builds enable optimizations and proper environment-specific features.
+          HUGO_ENVIRONMENT: production
+        run: |
+          hugo \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Upload site artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public          # Hugo outputs the static site to the 'public' directory.
+
+  # Deployment Job
+  # ───────────────
+  # Isolated deployment stage for security boundary and deployment tracking.
+  deploy:
+    permissions:
+      pages: write      # Required for publishing to GitHub Pages.
+      id-token: write   # Required for interacting with GitHub deployments.
+    environment:
+      name: github-pages
+      # Dynamic URL ensures links remain correct if the repository or branch changes.
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build        # Only deploy successful builds.
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
