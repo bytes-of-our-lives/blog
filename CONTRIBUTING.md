@@ -1,136 +1,159 @@
 # 📝 Contributing to Bytes of our Lives
 
-Welcome! If you're writing for this blog, here's how we take an idea from spark to published post — using a workflow
-that's transparent, async, and built around GitHub.
+We take an article from an initial idea to a published page through a small, explicit GitHub workflow. The originating
+Issue remains the lifecycle record while branches and Pull Requests come and go.
 
 ## Prerequisites
 
-To contribute and preview content locally, you’ll need:
+To write and preview an article locally, install:
 
-- [Git](https://git-scm.com/downloads) (for version control)
-- [Go](https://go.dev/doc/install) (for Hugo modules support)
-- [Hugo](https://gohugo.io/getting-started/installing/) (extended version recommended)
+- [Git](https://git-scm.com/downloads) for version control.
+- [Go](https://go.dev/doc/install) for Hugo Modules.
+- The [extended edition of Hugo](https://gohugo.io/installation/) for site generation.
 
-Make sure these are installed and available in your terminal before starting.
+## Article Lifecycle
 
-## Content Lifecycle
+### 1. Capture the Idea
 
-1. **Ideation**
-    - Open a new GitHub Issue to pencil-down and grow your idea.
-    - Use a **present-participle** verb in the title (see [Naming Conventions](#naming-conventions) below).
-    - Outline your concept, goals, and any early thoughts.
+Open an Issue whose title begins with a present-progressive verb and describes the intended outcome, such as
+“Explaining why reliable estimates fail”. Its body should capture:
 
-2. **Drafting**
-    - Create a branch named `article/your-topic-slug`.
-    - Draft your post in `content/posts/` directory.
-    - Use Hugo front-matter and Markdown.
-    - Read [Writing Tips](#writing-tips) for more guidance.
+- The intended audience.
+- The problem, question, or thesis.
+- What readers should understand or be able to do afterwards.
+- An optional early outline.
 
-3. **Peer Review**
-    - Open a Pull Request (PR) from your branch to `main`.
-    - Title the PR with the **imperative verb** (see [Naming Conventions](#naming-conventions) below).
-    - Request feedback from other authors.
-    - Feedback comes both _asynchronously_, as comments on GitHub.
-    - Feedback also comes _synchronously_, as personal conversations.
+Assign the Issue to the responsible author, add it to the [Articles Project][articles], and set its Project Status to
+Ideation. The Issue owns identity, context, assignee, and terminal outcome; Project Status owns the current phase.
 
-4. **Publication**
-    - Once approved, merge your changeset into `main`.
-    - The entire site is automatically rebuilt and deployed.
-    - Post the link to your new article on the Issue and close as completed.
+### 2. Draft the Article
+
+Create a branch named `article/<topic-slug>`, for example:
+
+```shell
+git switch -c article/reliable-time-estimates
+```
+
+Push the branch after the first meaningful draft commit and link it from the Issue so collaborators can discover the
+work before a Pull Request exists:
+
+```shell
+git push --set-upstream origin article/reliable-time-estimates
+```
+
+Create the article as a Hugo leaf bundle:
+
+```shell
+hugo new content posts/reliable-time-estimates/index.md
+```
+
+This produces the canonical layout:
+
+```text
+content/posts/reliable-time-estimates/
+├── index.md
+└── diagram.png
+```
+
+Keep images and other article-specific assets beside `index.md`. Set the Project Status to Drafting when work begins.
+When pausing work, handing it off, or encountering a blocker, comment on the Issue with the next action. Reassign the
+Issue when responsibility changes.
+
+New articles start with `draft: true`. Preview drafts locally with:
+
+```shell
+hugo server --buildDrafts
+```
+
+Replace the generated title with the article's _F.R.I.E.N.D.S_-style title. Hugo watches the repository and reloads the
+local site as the article changes.
+
+### 3. Request Review
+
+Before requesting review:
+
+1. Confirm the `draft` flag is intentional; set `draft: false` to publish, or keep it `true` only to merge without
+   publishing yet.
+2. Run local production-mode validation with `hugo --environment production --minify`.
+3. Open a Pull Request to `main` and set the Project Status to In review.
+
+The Pull Request title begins with an imperative verb describing what the repository will do after merge, such as
+“Publish The One About Reliable Time Estimates”. Its body should:
+
+- Link the originating Issue with `Tracks #N`.
+- Explain the intended shape of the article and any non-obvious choices.
+- Identify useful review focus and meaningful scope exclusions.
+- Record that the production build passed locally.
+
+Use `Tracks` instead of an auto-closing keyword: the Issue stays open until deployment succeeds.
+
+Request feedback from another author. Conversations may happen synchronously, but decisions and next actions needed by
+asynchronous collaborators must be captured on the Issue or Pull Request.
+
+### 4. Publish and Verify
+
+After approval, merge the Pull Request into `main` and set the Project Status to Publishing. This starts the GitHub
+Pages deployment but does not by itself prove that the article is live.
+
+The author monitors the deployment. When it succeeds:
+
+1. Open the live article and verify it renders correctly.
+2. Add the live URL to the Issue.
+3. Set the Project Status to Published and close the Issue as completed.
+4. Remove the article branch if GitHub did not remove it automatically.
+
+If deployment fails, keep the Issue open in Publishing while a follow-up change repairs it.
+
+### 5. Abandon or Revive Work
+
+When the team decides not to continue an unpublished article, record the reason on the Issue and set the Project Status
+to Abandoned. If the branch contains material worth retaining, open a draft Pull Request and close it as not planned so
+the diff remains discoverable; otherwise, record that discarding the draft is intentional. Then remove the branch and
+close the Issue as not planned.
+
+An idea can be revived by reopening its Issue when the original context still applies. Start any new draft or review on
+a fresh branch and Pull Request.
 
 ## Naming Conventions
 
-Content is made of several artefacts that follow a consistent naming scheme to keep things organised and clear:
+Naming makes artefacts recognizable; explicit links and GitHub state remain authoritative.
 
-- **Article Title:** Use a human-readable, FRIENDS-style episode title (i.e. “The One with/about/when ...”).
-- **Filename:** Use a short, lowercase, hyphenated slug based on the topic.
-- **Issues:** Start with a present-participle verb (e.g. "Writing", "Thinking", "Discussing") followed by the topic.
-  This signals ongoing work or ideation.
-- **Branches:** Always start with `article/` followed by the slug.
-- **PRs:** Start with an imperative-mood verb (e.g., "Publish", "Blog about") followed by the topic.
-  This signals the content is ready for review or publication.
+| Artefact      | Convention                                   | Example                                       |
+|---------------|----------------------------------------------|-----------------------------------------------|
+| Article title | _F.R.I.E.N.D.S_ episode style                | The One About Reliable Time Estimates         |
+| Directory     | Stable, lowercase topic slug                 | `reliable-time-estimates`                     |
+| Issue         | Present-progressive verb and desired outcome | Explaining why reliable estimates fail        |
+| Branch        | `article/<topic-slug>`                       | `article/reliable-time-estimates`             |
+| Pull Request  | Imperative repository capability             | Publish The One About Reliable Time Estimates |
 
-**Examples:**
+The `article/` prefix describes the semantic change independently of Hugo's `content/` directory. Other site content,
+such as landing pages or author profiles, can use conventions appropriate to those changes.
 
-| Slug                      | Issue                                       | Pull Request                              |
-|---------------------------|---------------------------------------------|-------------------------------------------|
-| reliable-time-estimates   | Writing about reliable time estimates       | Publish about reliable time estimates     |
-| zero-downtime-deploys     | Thinking about zero-downtime deploys        | Blog about zero-downtime deploys          |
-| dump-of-time-estimates    | Sharing thoughts on time estimates          | Publish thoughts on time estimates        |
-| ai-on-software-dev        | Evaluating the impact of AI on software dev | Evaluate the impact of AI on software dev |
-| state-of-devops           | Ranting about the state of devops           | Rant about the state of devops            |
-| go-concurrency-primitives | Discussing Golang concurrency primitives    | Discuss Golang concurrency primitives     |
+## Front Matter
 
-## Communication
-
-We trust authors to communicate, however, feels most natural, whether that's in person, over chat, or by video call. Use
-GitHub Issues and Pull Requests to capture context, decisions, and progress so everyone can stay in sync asynchronously
-but don't feel limited to GitHub for real conversation.
-
-## Writing Tips
-
-Writing for the blog should become intuitive, over time. Here are some guidelines to help you get started:
-
-- Aim for a conversational, tech-savvy tone.
-- Use Markdown and Hugo shortcodes as needed.
-- Keep posts practical, clear, and honest.
-
-### Hugo Markdown
-
-Hugo uses front-matter (in YAML format) to define metadata for each post.
-
-Here's a basic example:
+The repository's [default archetype][archetype] is the source of truth for required front matter. A newly generated
+article, with the archetype's templates already resolved, looks like:
 
 ```yaml
 ---
-title: "Your Post Title"
-date: 2023-10-01
-draft: false
-tags: [ "tag1", "tag2" ]
-categories: [ "category1", "category2" ]
-author: "Your Name"
-image: "images/your-image.jpg"
-summary: "A brief summary of your post"
+date: 2026-07-21T12:00:00+03:00
+draft: true
+title: The One About Reliable Time Estimates
 ---
 ```
 
-Hugo pages are written in Markdown, which allows for rich formatting. You can also use Hugo shortcodes for additional
-functionality (like embedding videos or creating callouts).
+Add optional metadata only when the site templates consume it or the project has explicitly reserved it. When required
+metadata changes, update the archetype and this guide together.
 
-## Hugo Page Structure
+## Writing Style
 
-You can write posts in two ways:
+- Aim for a conversational, tech-savvy tone.
+- Keep advice practical, clear, and honest.
+- Use Markdown and Hugo shortcodes where they improve the article.
+- Prefer clarity over cleverness.
 
-- **Single File (Article as a File):**
-  Place a Markdown file directly in `content/posts/`:
-  ```
-  content/posts/my-first-post.md
-  ```
+For the reasoning behind this workflow, read [the article lifecycle decision][lifecycle].
 
-- **Leaf Bundle (Article as a Folder):**
-  For posts with images or attachments, create a folder (a "leaf bundle") with an `index.md` inside:
-  ```
-  content/posts/my-first-post/
-    ├── index.md
-    └── diagram.png
-  ```
-  This lets you keep related assets together.
-  See [Hugo: Page Bundles](https://gohugo.io/content-management/page-bundles/) for details.
-
-Both patterns are supported—choose whichever fits your article.
-
-## Local Preview
-
-Before opening a Pull Request, preview your changes locally to ensure everything renders as expected. Run `hugo serve`
-from the project root and visit the provided local URL in your browser. Hugo will watch for changes and automatically
-reload the site as you edit your content.
-
-Reviewers are also encouraged to use `hugo serve` locally to view new or modified articles in context, since live
-previews for PRs aren’t yet available. This helps ensure formatting, images, and shortcodes render correctly before
-publication.
-
----
-
-For more on our workflow and decision-making, see [`/docs/decisions`](./docs/decisions).
-
-Happy writing!
+[archetype]: ./archetypes/default.md
+[articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
+[lifecycle]: ./docs/decisions/08-async-content-lifecycle-with-github.md

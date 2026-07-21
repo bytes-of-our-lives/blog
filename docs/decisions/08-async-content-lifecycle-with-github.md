@@ -1,122 +1,124 @@
-# Asynchronous Content Lifecycle via GitHub Issues & Pull‑Requests
+# Manage the Article Lifecycle with GitHub Issues and Pull Requests
 
-Our distributed author team needs a lightweight yet dependable way to shepherd blog‑post from vague ideas to published
-articles, without resorting to extra tooling.
-We already live in GitHub for code, reviews, and CI/CD, so it makes sense to treat written content with the same rigour
-and visibility.
-The challenge is to find a convention that keeps progress transparent, avoids stale drafts, and feels natural to
-engineers who think in commits.
+Our informal Issue → branch → Pull Request → merge workflow does not define how an article moves from an initial idea
+to publication, how contributors discover its current state, or what happens when work is abandoned. We need a shared
+lifecycle that supports asynchronous collaboration without adding enough ceremony to discourage writing.
 
 ## Context
 
-Tooling already in place: The site is built with Hugo, deployed via GitHub Pages (see [04-hosting-on-github-pages.md])
-and published automatically on merge to main (see [06-publishing-continuously.md]).
+Earlier decisions established a Git-first publishing model: articles are authored in Markdown with Hugo, reviewed in
+GitHub, merged into `main`, and deployed through GitHub Pages. This decision coordinates article work within that
+existing architecture rather than reconsidering the publishing stack.
 
-Author workflow: Everyone works asynchronously, using Git and Pull‑Requests for collaboration; English is our shared
-language.
-Because our whole stack already lives in GitHub, the natural answer is to treat writing like code: Issues capture
-intent, branches hold work in progress, Pull Requests drive peer review, and `main` is what the world sees.
+The workflow must:
 
-Naming ethos: Post titles mimic _F.R.I.E.N.D.S_ episodes (e.g. “The One with George Stephanopoulos”), providing a
-humorous but uniform naming scheme that guides content focus.
+- Preserve enough context for another author to continue work asynchronously.
+- Make an article's owner, state, and next action visible.
+- Maintain a durable relationship between the original idea, draft, review, and published article.
+- Account for paused or abandoned ideas instead of leaving drafts indefinitely active.
+- Keep routine maintenance low for a small, trusted author team.
 
-[04-hosting-on-github-pages.md]: ./04-hosting-on-github-pages.md
-
-[06-publishing-continuously.md]: ./06-publishing-continuously.md
-
-What we don’t want—at least today—are extra lifecycle labels, bots that shuffle cards, or scripts that comment “Now
-live!” when a post is published. Manual is fine as long as the path is familiar.
+We considered a manually maintained GitHub workflow, adding labels and automated Project transitions, and using an
+external editorial tracker or CMS. Automation and external tooling could reduce manual updates, but they introduce
+configuration and maintenance that are not justified by the team's current scale.
 
 ## Decision
 
-Each post will flow through three GitHub artefacts, tracked on the Projects board:
+We will manage each article through a GitHub Issue, its item in the [Articles Project][articles], a short-lived branch,
+and a Pull Request. Each artefact owns a distinct part of the lifecycle state:
 
-| Phase                 | Artifact     | Naming Convention                       | Project Column           |
-|-----------------------|--------------|-----------------------------------------|--------------------------|
-| Ideation & outline    | Issue        | Present-participle verb + TOPIC         | Ideation / Drafting      |
-| Drafting & edits      | Branch       | Prefixed by `article/`                  | In Progress (Issue card) |
-| Peer review & publish | Pull Request | Publish or imperative-mood verb + TOPIC | In Review → Published    |
+- The Issue owns identity, durable context, the responsible author through its assignee, and the terminal outcome.
+- The Project item's Status field owns the current lifecycle phase, using the values in the table below.
+- The branch and Pull Request contain the draft and review without duplicating lifecycle state.
 
-For example, an Issue might be titled “Writing about George Stephanopoulos” following the present-participle verb
-convention.
-The corresponding branch could be named `article/george-stephanopoulos`, and the Pull Request would be titled “Publish
-about George Stephanopoulos” or "Publish The One with George Stephanopoulos".
+This split keeps one source of truth for each property without encoding phases in Issue labels or body text.
 
-Cards are moved manually by the author or reviewer; no automation touches them for now.
+### Lifecycle
 
-### Naming details
+An article moves through these semantic states:
 
-To keep things simple and consistent, we use the abovementioned naming conventions for each artefact. This section
-complements the table above with more details.
+| State       | Transition trigger                                      | Author responsibility                         |
+|-------------|---------------------------------------------------------|-----------------------------------------------|
+| Ideation    | An Issue captures a viable article idea                 | Record the audience, thesis, and outcome      |
+| Drafting    | Work begins on an `article/` branch                      | Keep the Issue and Project status current     |
+| In review   | A Pull Request is ready for peer review                  | Link the Issue and surface review focus       |
+| Publishing  | The approved Pull Request is merged into `main`          | Monitor the deployment                        |
+| Published   | The Pages deployment succeeds and the article is live    | Link the live article and close the Issue     |
+| Abandoned   | The team decides not to continue before publication      | Record why, close open work, and close Issue  |
 
-Blog posts have two identifiers: a human-readable title (e.g. “The One with George Stephanopoulos”) and a file name (
-e.g. `george-stephanopoulos.md`).
-The title follows the _F.R.I.E.N.D.S_ episode style, using the format “The One with/about/when _TOPIC..._”.
-The file name is derived from the title, shorter and avoids special characters, making it convenient for URLs and file
-systems, while remaining relevant to the content.
+The Issue remains open until the article is either published or abandoned. A merge starts publication but does not
+prove it succeeded. If deployment fails, the article remains in Publishing while a follow-up change repairs it.
 
-Issues **always** start with a _present‑participle_ verb that reflects the author’s ongoing effort, followed by the
-topic.
-Here are some examples:
+The Issue assignee is the responsible author. When pausing work, handing it off, or encountering a blocker, that author
+records the next action on the Issue so another contributor can continue asynchronously. Project Status options use the
+state names in the table; the terminal state is set before closing the Issue as completed or not planned.
 
-- "Writing about reliable time estimates"
-- "Thinking about zero‑downtime deploys"
-- "Sharing thoughts on time estimates"
-- "Evaluating the impact of AI on software development"
-- "Ranting about the state of devops"
-- "Discussing Golang concurrency primitives"
+An abandoned idea may be revived by reopening its Issue when the original context still applies. Any new draft or
+review starts from a new branch and Pull Request.
 
-Branches **always** start with `article/` followed by a slug version of the topic: short, lowercase, and hyphenated,
-like the file name.
+### Artifact Relationships
 
-Pull Requests **always** start with an _imperative-mood_ verb that reflects the action of making the content live, such
-as _Publish_, followed by the topic.
+- The **Issue** owns the article's identity, assignee, durable problem-space context, and terminal outcome.
+- The **Project item** owns the current lifecycle phase through its Status field.
+- The **branch** stores the working draft. Its link is recorded on the Issue while drafting, and it is removed after
+  publication or intentional discard.
+- The **Pull Request** proposes publication, links the Issue, and contains review-specific context.
+- The **live article URL** is terminal evidence of successful publication and is added to the Issue before closure.
 
-Here are some examples of Pull Requests titles that match the Issues above:
+The Issue links the pushed branch while drafting. Once review starts, the Pull Request provides the durable association
+between its head branch and the Issue. Branch names provide useful context, but branches have no independent backlink.
 
-- "Publish about reliable time estimates"
-- "Blog about zero‑downtime deploys"
-- "Publish thoughts on time estimates"
-- "Evaluate the impact of AI on software development"
-- "Rant about the state of devops"
-- "Discuss Golang concurrency primitives"
+GitHub remains the system of record even when authors discuss an article in person or over chat. Any outcome needed by
+an asynchronous collaborator is recorded on the Issue or Pull Request.
 
-The imperative mood helps differentiate the review stage from the ideation phase, making it clear that the content is
-ready for publication, while the present‑participle verb in Issues indicates ongoing work. We avoid repeating the full
-episode‑style title inside the PR title unless clarity demands it.
+### Naming and Content Conventions
+
+Article titles use the _F.R.I.E.N.D.S_ episode style, such as “The One About Reliable Time Estimates”. The directory
+name uses a stable, lowercase, hyphenated topic slug such as `reliable-time-estimates`.
+
+Issues begin with a present-progressive verb and describe the intended outcome, for example, “Explaining why reliable
+estimates fail”. Their bodies capture the intended audience, problem or thesis, and desired outcome; an early outline
+is optional.
+
+Article branches use `article/<topic-slug>`. The prefix describes the semantic change independently of Hugo's
+`content/` directory and distinguishes articles from other site content.
+
+Pull Request titles begin with an imperative verb that describes what the repository will do after merge, for example,
+“Publish The One About Reliable Time Estimates”. Their bodies link the originating Issue with `Tracks #N`, explain the
+chosen shape of the article, identify useful review focus or exclusions, and include local build proof. We do not use
+an auto-closing keyword because the Issue stays open until deployment succeeds.
+
+Commit-message formatting is intentionally outside this decision. The small, trusted team can align on commits during
+review without making them part of the article lifecycle contract.
+
+Detailed commands and examples live in the [contribution guide][contributing].
 
 ### Rationale
 
-- Zero extra ceremony: We reuse GitHub primitives we already like; no new labels, bots, or external tools.
-- Traceability: Commits, PR, and Issue titles form a breadcrumb trail reviewers and future editors can grep.
-- Instant clarity: The naming convention provides immediate insight into the post’s status and content focus, making it
-  easy to understand at a glance; be it in the Issues list, the Projects board, or the commit history.
-- Future‑proof: By laying conventions today, we set a foundation that can scale as our content grows, without needing to
-  overhaul our workflow.
+- **Low ceremony:** The workflow reuses GitHub primitives the team already understands without adding an external
+  service or lifecycle automation.
+- **Explicit ownership:** Each property has one owner: the Issue holds context, assignee, and outcome, while the Project
+  Status field holds the current phase. Branches and Pull Requests remain transient.
+- **Durable traceability:** Explicit links connect the idea, review, and deployed result more reliably than naming
+  conventions alone.
+- **Operational honesty:** Publication is complete only after the generated site is successfully deployed and verified.
+- **Incremental automation:** The manual transitions expose where automation would help later without requiring it now.
 
 ## Consequences
 
-This decision contributes:
-
-- Authors learn straightforward rules for naming Issues, branches, Pull-Requests, and file names.
-- The workflow mirrors our existing Git habits, making it intuitive for engineers.
-- Manual board updates require discipline, but the process is straightforward and transparent.
-- The repo remains tidy without extra labels or bots, keeping the focus on content.
-
-This decision has the following downsides:
-
-- Manual updates to the Projects board require discipline; forgetting to move cards can lead to confusion about the
-  status of articles.
-- PR titles differ from final post titles, so searching may get tricky; users can fall back to commit history.
-- Choosing the right verb for atypical posts (e.g. recording a podcast episode) requires more thought.
-- Non-technical contributors still need to understand GitHub Issues and Pull Requests.
-
-To facilitate project management, we’ve created a [GitHub Project][articles] to track the lifecycle of articles.
-
-[articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
+- Authors must maintain the Issue assignee, next action when work pauses, and Project Status manually.
+- Reviewers can reconstruct an article's history without searching across disconnected artefacts.
+- Publishing failures remain visible rather than allowing a merged Pull Request to masquerade as a live article.
+- Non-technical contributors still need familiarity with GitHub Issues and Pull Requests.
+- The naming contract adds consistency, but GitHub state and explicit links—not grammar—remain authoritative.
 
 ## Revisit When
 
-- Card‑drag fatigue sets in, and we’re ready to automate board transitions.
-- We start scheduling posts or need embargo dates.
-- Searchability pain pushes us to embed the episode‑style title directly into PR titles.
+- Manual Project updates are routinely forgotten or no longer describe the article's real phase.
+- The number of concurrent articles makes ownership or next actions difficult to discover.
+- Scheduled or embargoed publication requires states beyond this lifecycle.
+- Non-technical authors need an editorial interface that GitHub cannot provide comfortably.
+- Article formats expand enough that the `article/` branch prefix no longer describes the work accurately.
+
+[articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
+[contributing]: ../../CONTRIBUTING.md

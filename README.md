@@ -12,18 +12,9 @@ tooling to publishing strategies and style enforcement — our approach evolves,
 
 ## ✍️ Contributing as an Author
 
-We're a small, async team of trusted writers who collaborate through GitHub. If you're part of the crew, here's how to
-get started:
-
-### ✍️ Author Workflow
-
-1. Clone the repo and create a new branch for your draft.
-2. Write your post in `content/posts/yyyy-mm-title/index.md` (not yet defined).
-3. Use Hugo _frontmatter_ and _shortcodes_ appropriately.
-4. Add images or diagrams to the same folder if needed.
-5. Preview locally with `hugo serve`.
-6. Open a PR for feedback and collaborative editing.
-7. Once ready, merge to `main` to trigger deployment.
+We're a small, async team of trusted writers who collaborate through GitHub. The [contribution guide](./CONTRIBUTING.md)
+explains how an idea moves through an Issue, article branch, Pull Request, and verified publication. It also defines the
+article layout, naming conventions, local preview workflow, and what happens when work is abandoned.
 
 ### 🧭 Writing Philosophy & Voice
 
@@ -52,10 +43,9 @@ In the meantime, we encourage:
 
 ## 🚀 Future Plans
 
-We're working toward a more complete authoring guide, pre-publish checklists, and automation for preview environments.
-Until then, keep things simple, and when in doubt — write it down.
+We're working toward automated prose checks and preview environments. Until then, keep things simple, and when in doubt
+— write it down.
 
 Stay curious, write often, and remember to laugh at your own bugs.
 
 — The Bytes of our Lives Team 🧵
-
