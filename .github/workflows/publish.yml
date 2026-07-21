@@ -10,15 +10,17 @@ name: Deploy Hugo Site to GitHub Pages
 on:
   push:
     branches: ["main"]  # The main branch contains production-ready content only.
+  pull_request:
+    branches: ["main"]  # Validate the merge candidate before it reaches main.
   workflow_dispatch:    # Enables manual deployments for testing or emergency fixes.
 
 # Concurrency
 # ───────────────────
-# Prevents race conditions with multiple deploys changing site URL references.
-# Allowing in-progress runs to finish avoids broken partial deploys of live content.
+# Production runs remain serialized. Pull requests use independent groups and
+# cancel superseded builds without interrupting a live deployment.
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('validate-{0}', github.event.pull_request.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 # Ensures Hugo commands and shell expansions work identically across Linux/macOS runners.
 # Avoids PowerShell inconsistencies with variable expansion in Windows runners.
@@ -73,6 +75,7 @@ jobs:
             --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload site artifacts
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public          # Hugo outputs the static site to the 'public' directory.
@@ -81,6 +84,7 @@ jobs:
   # ───────────────
   # Isolated deployment stage for security boundary and deployment tracking.
   deploy:
+    if: github.event_name != 'pull_request'
     permissions:
       pages: write      # Required for publishing to GitHub Pages.
       id-token: write   # Required for interacting with GitHub deployments.
