@@ -18,16 +18,20 @@ The workflow must:
 - Account for paused or abandoned ideas instead of leaving drafts indefinitely active.
 - Keep routine maintenance low for a small, trusted author team.
 
-We considered a manually maintained GitHub workflow, adding labels and automated Project transitions, and using an
-external editorial tracker or CMS. Automation and external tooling could reduce manual updates, but they introduce
-configuration and maintenance that are not justified by the team's current scale.
+We considered encoding the phase in labels, an organization-level Issue Field, relying on automated Project
+transitions, and an external editorial tracker or CMS. An Issue Field would keep the phase attached to the Issue across
+Projects and make it searchable outside the Project. This workflow has one required Articles Project, however, so that
+portability does not currently offset organization-wide configuration, migration, and another manually maintained
+field. Labels do not enforce a single current phase. Depending on automation or external tooling would introduce
+operational coupling that is not justified by the team's current scale.
 
 ## Decision
 
 We will manage each article through a GitHub Issue, its item in the [Articles Project][articles], a short-lived branch,
 and a Pull Request. Each artefact owns a distinct part of the lifecycle state:
 
-- The Issue owns identity, durable context, the responsible author through its assignee, and the terminal outcome.
+- The Issue uses the organization's `Article` [Issue Type][issue-types] and owns identity, durable context, the
+  responsible author through its assignee, and the terminal outcome.
 - The Project item's Status field owns the current lifecycle phase, using the values in the table below.
 - The branch and Pull Request contain the draft and review without duplicating lifecycle state.
 
@@ -40,7 +44,7 @@ An article moves through these semantic states:
 | State       | Transition trigger                                      | Author responsibility                         |
 |-------------|---------------------------------------------------------|-----------------------------------------------|
 | Ideation    | An Issue captures a viable article idea                 | Record the audience, thesis, and outcome      |
-| Drafting    | Work begins on an `article/` branch                      | Keep the Issue and Project status current     |
+| Drafting    | Work begins on an `article/` branch                      | Keep Issue context and Project Status current |
 | In review   | A Pull Request is ready for peer review                  | Link the Issue and surface review focus       |
 | Publishing  | The approved Pull Request is merged into `main`          | Monitor the deployment                        |
 | Published   | The Pages deployment succeeds and the article is live    | Link the live article and close the Issue     |
@@ -48,13 +52,19 @@ An article moves through these semantic states:
 
 The Issue remains open until the article is either published or abandoned. A merge starts publication but does not
 prove it succeeded. If deployment fails, the article remains in Publishing while a follow-up change repairs it.
+Published always pairs with an Issue closed as completed; Abandoned always pairs with an Issue closed as not planned.
 
 The Issue assignee is the responsible author. When pausing work, handing it off, or encountering a blocker, that author
 records the next action on the Issue so another contributor can continue asynchronously. Project Status options use the
 state names in the table; the terminal state is set before closing the Issue as completed or not planned.
 
-An abandoned idea may be revived by reopening its Issue when the original context still applies. Any new draft or
-review starts from a new branch and Pull Request.
+The Articles Project contains automatic workflows that may perform some Status transitions. These workflows reduce
+routine updates but do not own the lifecycle: the responsible author verifies and corrects Project Status, and the
+process remains usable when automation is disabled or fails.
+
+An abandoned idea may be revived by reopening its Issue when the original context still applies. Its archived Project
+item is restored, or re-added if it was removed, and its Project Status returns to Ideation before moving to Drafting
+when work resumes. Any new draft or review starts from a new branch and Pull Request.
 
 ### Artifact Relationships
 
@@ -76,9 +86,9 @@ an asynchronous collaborator is recorded on the Issue or Pull Request.
 Article titles use the _F.R.I.E.N.D.S_ episode style, such as “The One About Reliable Time Estimates”. The directory
 name uses a stable, lowercase, hyphenated topic slug such as `reliable-time-estimates`.
 
-Issues begin with a present-progressive verb and describe the intended outcome, for example, “Explaining why reliable
-estimates fail”. Their bodies capture the intended audience, problem or thesis, and desired outcome; an early outline
-is optional.
+Issues use the `Article` type, begin with a present-progressive verb, and describe the intended outcome, for example,
+“Explaining why reliable estimates fail”. Their bodies capture the intended audience, problem or thesis, and desired
+outcome; an early outline is optional.
 
 Article branches use `article/<topic-slug>`. The prefix describes the semantic change independently of Hugo's
 `content/` directory and distinguishes articles from other site content.
@@ -99,14 +109,21 @@ Detailed commands and examples live in the [contribution guide][contributing].
   service or lifecycle automation.
 - **Explicit ownership:** Each property has one owner: the Issue holds context, assignee, and outcome, while the Project
   Status field holds the current phase. Branches and Pull Requests remain transient.
+- **Appropriate scope:** Project Status matches the single editorial board used today. An organization-level Issue
+  Field is deferred until its cross-Project visibility solves an observed need.
 - **Durable traceability:** Explicit links connect the idea, review, and deployed result more reliably than naming
   conventions alone.
 - **Operational honesty:** Publication is complete only after the generated site is successfully deployed and verified.
-- **Incremental automation:** The manual transitions expose where automation would help later without requiring it now.
+- **Optional automation:** Existing Project workflows can reduce routine updates without becoming a prerequisite for
+  the lifecycle.
 
 ## Consequences
 
-- Authors must maintain the Issue assignee, next action when work pauses, and Project Status manually.
+- Authors must select the `Article` Issue Type, add the Issue to the Articles Project, and maintain the assignee, next
+  action when work pauses, and Project Status manually.
+- Authors need permission to add Project items and edit Project Status independently of their repository permissions.
+- An article has no recorded lifecycle phase until it belongs to the Articles Project.
+- Project items remain present through terminal closure and may be archived, but removing one discards its phase.
 - Reviewers can reconstruct an article's history without searching across disconnected artefacts.
 - Publishing failures remain visible rather than allowing a merged Pull Request to masquerade as a live article.
 - Non-technical contributors still need familiarity with GitHub Issues and Pull Requests.
@@ -115,6 +132,7 @@ Detailed commands and examples live in the [contribution guide][contributing].
 ## Revisit When
 
 - Manual Project updates are routinely forgotten or no longer describe the article's real phase.
+- Article Issues need one consistent phase across multiple Projects or must be searchable by phase outside a Project.
 - The number of concurrent articles makes ownership or next actions difficult to discover.
 - Scheduled or embargoed publication requires states beyond this lifecycle.
 - Non-technical authors need an editorial interface that GitHub cannot provide comfortably.
@@ -122,3 +140,4 @@ Detailed commands and examples live in the [contribution guide][contributing].
 
 [articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
 [contributing]: ../../CONTRIBUTING.md
+[issue-types]: https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/managing-issue-types-in-an-organization

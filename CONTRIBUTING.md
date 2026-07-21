@@ -1,7 +1,7 @@
 # 📝 Contributing to Bytes of our Lives
 
 We take an article from an initial idea to a published page through a small, explicit GitHub workflow. The originating
-Issue remains the lifecycle record while branches and Pull Requests come and go.
+Issue remains the durable coordination record while branches and Pull Requests come and go.
 
 ## Prerequisites
 
@@ -15,8 +15,8 @@ To write and preview an article locally, install:
 
 ### 1. Capture the Idea
 
-Open an Issue whose title begins with a present-progressive verb and describes the intended outcome, such as
-“Explaining why reliable estimates fail”. Its body should capture:
+Open an Issue with the organization's `Article` [Issue Type][issue-types]. Its title begins with a present-progressive
+verb and describes the intended outcome, such as “Explaining why reliable estimates fail”. Its body should capture:
 
 - The intended audience.
 - The problem, question, or thesis.
@@ -25,6 +25,10 @@ Open an Issue whose title begins with a present-progressive verb and describes t
 
 Assign the Issue to the responsible author, add it to the [Articles Project][articles], and set its Project Status to
 Ideation. The Issue owns identity, context, assignee, and terminal outcome; Project Status owns the current phase.
+Keep the Project item through terminal closure; archive it instead of removing it when clearing active views.
+
+The Project includes automatic workflows that may apply some Status changes. Treat them as a convenience: the
+responsible author still verifies every transition and corrects the Status when automation does not run as expected.
 
 ### 2. Draft the Article
 
@@ -111,8 +115,9 @@ to Abandoned. If the branch contains material worth retaining, open a draft Pull
 the diff remains discoverable; otherwise, record that discarding the draft is intentional. Then remove the branch and
 close the Issue as not planned.
 
-An idea can be revived by reopening its Issue when the original context still applies. Start any new draft or review on
-a fresh branch and Pull Request.
+An idea can be revived by reopening its Issue when the original context still applies. Restore its archived Project
+item, or re-add it if it was removed, and return the Project Status to Ideation. Move it to Drafting when work resumes,
+and start any new draft or review on a fresh branch and Pull Request.
 
 ## Naming Conventions
 
@@ -122,7 +127,7 @@ Naming makes artefacts recognizable; explicit links and GitHub state remain auth
 |---------------|----------------------------------------------|-----------------------------------------------|
 | Article title | _F.R.I.E.N.D.S_ episode style                | The One About Reliable Time Estimates         |
 | Directory     | Stable, lowercase topic slug                 | `reliable-time-estimates`                     |
-| Issue         | Present-progressive verb and desired outcome | Explaining why reliable estimates fail        |
+| Issue         | `Article` type; present-progressive outcome  | Explaining why reliable estimates fail        |
 | Branch        | `article/<topic-slug>`                       | `article/reliable-time-estimates`             |
 | Pull Request  | Imperative repository capability             | Publish The One About Reliable Time Estimates |
 
@@ -156,4 +161,5 @@ For the reasoning behind this workflow, read [the article lifecycle decision][li
 
 [archetype]: ./archetypes/default.md
 [articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
+[issue-types]: https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/managing-issue-types-in-an-organization
 [lifecycle]: ./docs/decisions/08-async-content-lifecycle-with-github.md
