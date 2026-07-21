@@ -77,7 +77,7 @@ jobs:
 
       - name: Upload site artifacts
         if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./public          # Hugo outputs the static site to the 'public' directory.
 
