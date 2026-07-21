@@ -43,7 +43,7 @@ jobs:
     steps:
       # Hugo requires Go to manage its modules (themes, plugins, and the likes).
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
           go-version: 'stable'    # Always use the latest stable version of Go.
 
