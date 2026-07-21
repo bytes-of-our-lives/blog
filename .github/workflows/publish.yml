@@ -38,6 +38,7 @@ jobs:
   build:
     permissions:
       contents: read    # Only needs read access to checkout repository contents.
+      pages: read       # Reads Pages metadata (public Pages/repos need no permission).
     runs-on: ubuntu-latest
     steps:
       # Hugo requires Go to manage its modules (themes, plugins, and the likes).
