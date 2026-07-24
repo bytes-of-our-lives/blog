@@ -9,10 +9,21 @@ title: "Bytes of our Lives 👾"
 # Uncomment when using a custom domain.
 # baseURL: https://example.org/
 
-# The site’s language tag, conforming to the syntax described in RFC 5646.
-languageCode: en-us
+# The site’s locale, conforming to the syntax described in RFC 5646.
+locale: en-US
+
+menus:
+  main:
+    - name: Articles
+      pageRef: /posts
+      weight: 10
 
 # Configure modules (themes, plugins, etc.) for Hugo.
 module:
   imports:
-    - path: github.com/spf13/hyde
+    - path: github.com/adityatelange/hugo-PaperMod
+
+params:
+  homeInfoParams:
+    Title: Building, breaking, and occasionally fixing things
+    Content: Practical, witty, and honest lessons from software development, technical leadership, and startup life.
