@@ -12,6 +12,12 @@ title: "Bytes of our Lives 👾"
 # The site’s locale, conforming to the syntax described in RFC 5646.
 locale: en-US
 
+menus:
+  main:
+    - name: Articles
+      pageRef: /posts
+      weight: 10
+
 # Configure modules (themes, plugins, etc.) for Hugo.
 module:
   imports:
