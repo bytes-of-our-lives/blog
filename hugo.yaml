@@ -15,4 +15,4 @@ locale: en-US
 # Configure modules (themes, plugins, etc.) for Hugo.
 module:
   imports:
-    - path: github.com/spf13/hyde
+    - path: github.com/adityatelange/hugo-PaperMod
