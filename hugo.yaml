@@ -22,3 +22,8 @@ menus:
 module:
   imports:
     - path: github.com/adityatelange/hugo-PaperMod
+
+params:
+  homeInfoParams:
+    Title: Building, breaking, and occasionally fixing things
+    Content: Practical, witty, and honest lessons from software development, technical leadership, and startup life.
