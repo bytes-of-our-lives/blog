@@ -9,8 +9,8 @@ title: "Bytes of our Lives 👾"
 # Uncomment when using a custom domain.
 # baseURL: https://example.org/
 
-# The site’s language tag, conforming to the syntax described in RFC 5646.
-languageCode: en-us
+# The site’s locale, conforming to the syntax described in RFC 5646.
+locale: en-US
 
 # Configure modules (themes, plugins, etc.) for Hugo.
 module:
