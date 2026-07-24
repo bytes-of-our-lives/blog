@@ -194,6 +194,34 @@ metadata changes, update the archetype and this guide together.
 
 For the reasoning behind this workflow, read [the article lifecycle decision][lifecycle].
 
+## Maintaining the Site
+
+### Hugo Dependencies
+
+The deployment workflow intentionally installs the latest stable Hugo release. This keeps the toolchain current and
+makes deprecation warnings visible while there is still time to address them. Treat those warnings as compatibility
+signals: review them during routine maintenance rather than waiting for a build to break.
+
+Themes and other Hugo Modules are imported through [`hugo.yaml`](./hugo.yaml), while their selected versions are
+recorded in `go.mod` and `go.sum`. To upgrade a module, replace `MODULE_PATH` below with its import path from `hugo.yaml`
+and run:
+
+```bash
+hugo mod get MODULE_PATH@latest
+hugo mod tidy
+hugo mod graph
+go mod verify
+hugo --environment production --minify --renderToMemory
+```
+
+Use `hugo mod tidy`, not `go mod tidy`. A theme may be referenced only by Hugo configuration, so the Go command can
+mistake it for an unused module and remove it.
+
+Dependabot checks Go Modules and GitHub Actions weekly, and pull requests are built with the latest stable Hugo. These
+automations can surface available updates and compatibility problems, but they do not own the maintenance process.
+Maintainers still review upstream release notes and module diffs, run the checks above, and preview representative pages
+before merging an upgrade.
+
 [archetype]: ./archetypes/default.md
 [articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
 [auto-close-issues]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-auto-closing-issues
