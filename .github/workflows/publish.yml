@@ -50,7 +50,7 @@ jobs:
       # This is a very common community action to install Hugo.
       # Nonetheless, see <https://gohugo.io/installation/linux/#prerequisites> for manual details.
       - name: Hugo setup
-        uses: peaceiris/actions-hugo@v3.2.1
+        uses: peaceiris/actions-hugo@2752ce1d29631191ea3f27c23495fa06139a5b78 # v3.2.1
         with:
           hugo-version: 'latest'  # Always use the latest stable version of Hugo (according to Homebrew).
           extended: true          # Required for SCSS/SASS support in themes.
