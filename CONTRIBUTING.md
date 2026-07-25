@@ -93,11 +93,10 @@ Before requesting review:
 3. Run the local production smoke test below and verify the expected article output exists.
 4. Open a Pull Request to `main` and set the Project Status to In review.
 
-Build the site with production settings and confirm the expected article output exists. The smoke test only checks that
-the file was generated, so it needs no base URL:
+Build the site with production settings against a localhost base URL and confirm the expected article output exists:
 
 ```shell
-hugo --environment production --minify --cleanDestinationDir
+hugo --environment production --minify --cleanDestinationDir --baseURL http://localhost/
 test -f public/posts/reliable-time-estimates/index.html
 ```
 
