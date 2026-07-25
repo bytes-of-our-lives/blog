@@ -51,6 +51,7 @@ jobs:
         uses: actions/setup-go@v7
         with:
           go-version: 'stable'    # Always use the latest stable version of Go.
+          cache: false            # Hugo relocates the Go module and build caches under HUGO_CACHEDIR.
 
       # This is a very common community action to install Hugo.
       # Nonetheless, see <https://gohugo.io/installation/linux/#prerequisites> for manual details.
