@@ -76,6 +76,9 @@ New articles start with `draft: true`. Preview drafts locally with:
 hugo server --buildDrafts
 ```
 
+Add `--buildFuture` (or `-F`) when the article's `date` is intentionally in the future; `--buildDrafts` alone still
+hides future-dated content.
+
 Replace the generated title with the article's _F.R.I.E.N.D.S_-style title. Hugo watches the repository and reloads the
 local site as the article changes.
 
