@@ -29,12 +29,20 @@ menus:
 # Configure modules (themes, plugins, etc.) for Hugo.
 module:
   imports:
-    - path: github.com/adityatelange/hugo-PaperMod
+    - path: github.com/jpanther/congo/v2
 
 params:
-  homeInfoParams:
-    Title: Sharing ideas and telling stories about software systems and startup life
-    Content: |
-      Drawing on our different experiences in high tech, we write about the work of building products, teams, and companies.
+  mainSections:
+    - posts
 
-      We hope you find it practical, witty, and relatable.
+  footer:
+    showAppearanceSwitcher: true
+
+  homepage:
+    layout: page
+    showRecent: true
+
+  article:
+    showAuthor: false
+    showBreadcrumbs: true
+    showTaxonomies: true
