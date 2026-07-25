@@ -1,5 +1,7 @@
 module github.com/bytes-of-our-lives/blog
 
-go 1.24.2
+go 1.26.0
 
-require github.com/spf13/hyde v1.3.0 // indirect
+require (
+	github.com/adityatelange/hugo-PaperMod v0.0.0-20260510052646-154d006e0182 // indirect
+)
