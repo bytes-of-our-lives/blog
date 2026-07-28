@@ -68,6 +68,7 @@ jobs:
           PREVIEW_URL: https://pr-${{ github.event.pull_request.number }}.${{ vars.CLOUDFLARE_PAGES_PROJECT }}.pages.dev/
         run: |
           hugo \
+            --buildFuture \
             --minify \
             --baseURL "${PREVIEW_URL}"
 
