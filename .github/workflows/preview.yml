@@ -14,8 +14,10 @@ defaults:
 
 jobs:
   deploy:
-    # Environment credentials must never be exposed to code from a fork.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # Environment credentials are unavailable to forks and Dependabot.
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]'
     permissions:
       contents: read
     environment:
