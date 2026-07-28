@@ -217,13 +217,20 @@ go mod verify
 hugo --environment production --minify --renderToMemory
 ```
 
+The targeted command keeps routine upgrades independently reviewable. To intentionally refresh every direct and
+indirect Hugo Module dependency, replace the first command with `hugo mod get -u`, then run the same reconciliation and
+validation steps.
+
 Use `hugo mod tidy`, not `go mod tidy`. A theme may be referenced only by Hugo configuration, so the Go command can
 mistake it for an unused module and remove it.
 
-Dependabot checks Go Modules and GitHub Actions weekly, and pull requests are built with the latest stable Hugo. These
-automations can surface available updates and compatibility problems, but they do not own the maintenance process.
-Maintainers still review upstream release notes and module diffs, run the checks above, and preview representative pages
-before merging an upgrade.
+Dependabot checks GitHub Actions weekly. It intentionally does not target the `gomod` ecosystem: Dependabot's Go
+updater does not preserve modules referenced only by Hugo configuration and can remove the selected theme while tidying
+the Go module graph.
+
+Hugo Module discovery and upgrades therefore remain maintainer-owned. Pull requests are still built with the latest
+stable Hugo to surface compatibility problems. Maintainers review upstream release notes and module diffs, run the
+checks above, and preview representative pages before merging an upgrade.
 
 [archetype]: ./archetypes/default.md
 [articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
