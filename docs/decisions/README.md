@@ -47,3 +47,4 @@ This section should be updated whenever a new decision file is added:
 7. [Manage Themes Using Hugo Modules](./07-hugo-modules-for-themes.md)
 8. [Manage the Article Lifecycle with GitHub Issues and Pull Requests](./08-async-content-lifecycle-with-github.md)
 9. [Use Cloudflare Pages for Pull Request Previews](./09-cloudflare-pages-for-pull-request-previews.md)
+10. [Use Congo as a Provisional Launch Theme](./10-congo-as-provisional-launch-theme.md)
