@@ -20,9 +20,10 @@ jobs:
       github.actor != 'dependabot[bot]'
     permissions:
       contents: read
+      deployments: write
     environment:
       name: preview
-      # Use the Environment for configuration without creating a placeholder Deployment.
+      # Wrangler creates the Deployment that represents the actual preview.
       deployment: false
     runs-on: ubuntu-latest
     steps:
@@ -59,6 +60,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ github.token }}
           command: >-
             pages deploy public
             --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}
