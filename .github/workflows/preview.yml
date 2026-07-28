@@ -33,6 +33,16 @@ jobs:
       deployment: false
     runs-on: ubuntu-latest
     steps:
+      - name: Validate preview configuration
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+        run: |
+          : "${CLOUDFLARE_ACCOUNT_ID:?Configure CLOUDFLARE_ACCOUNT_ID in the preview environment}"
+          : "${CLOUDFLARE_API_TOKEN:?Configure CLOUDFLARE_API_TOKEN in the preview environment}"
+          : "${CLOUDFLARE_PAGES_PROJECT:?Configure CLOUDFLARE_PAGES_PROJECT in the preview environment}"
+
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
