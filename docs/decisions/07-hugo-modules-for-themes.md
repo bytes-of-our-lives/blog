@@ -41,6 +41,8 @@ viable, and the decision will be based on practical experience as we move forwar
 - We benefit from reduced Git friction, saving maintainers from manual submodule headaches.
 - Authors need Go installed locally, unless we vendor our modules using `hugo mod vendor`.
 - Slight learning curve for anyone unfamiliar with Go modules.
+- Hugo Modules referenced only by site configuration must be maintained with Hugo's commands. Generic Go dependency
+  automation can mistake them for unused modules and remove them.
 - Future maintainers unfamiliar with Hugo Modules can start with the [official Hugo Modules documentation][hugo-mod] for
   clear and practical guidance.
 
@@ -48,15 +50,31 @@ viable, and the decision will be based on practical experience as we move forwar
 
 ### Common Workflows
 
-- Update all theme modules to latest versions:
+- Upgrade an imported module and reconcile Hugo's module graph:
+
+  ```shell
+  hugo mod get github.com/example/theme@latest
+  hugo mod tidy
+  hugo mod graph
+  ```
+
+- Intentionally refresh all direct and indirect modules:
+
   ```shell
   hugo mod get -u
+  hugo mod tidy
+  hugo mod graph
   ```
 
 - Require a new theme:
+
   ```shell
   hugo mod get github.com/example/new-theme
+  hugo mod tidy
   ```
+
+Use `hugo mod tidy`, never `go mod tidy`. Dependabot monitors GitHub Actions, but does not own Hugo Module upgrades.
+The contributor guide contains the complete [Hugo dependency maintenance procedure][hugo-dependencies].
 
 ## Revisit When
 
@@ -64,3 +82,4 @@ viable, and the decision will be based on practical experience as we move forwar
   preferences.
 - Hugo introduces a simpler, Hugo-native solution that entirely replaces the advantages of modules.
 
+[hugo-dependencies]: ../../CONTRIBUTING.md#hugo-dependencies
