@@ -8,6 +8,12 @@ on:
     branches: ["main"]
     types: [opened, reopened, synchronize]
 
+# Each pull request owns one stable preview alias. A newer revision supersedes
+# any deployment still running for that pull request.
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 defaults:
   run:
     shell: bash
