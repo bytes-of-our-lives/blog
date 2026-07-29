@@ -1,0 +1,76 @@
+{{- $schema := dict -}}
+
+{{- /* Congo models one site-wide author; this site derives authorship from Hugo taxonomy terms. */ -}}
+{{- if .IsHome -}}
+  {{- $home := .Site.Home.Permalink -}}
+  {{- $schema = dict
+    "@context" "https://schema.org"
+    "@id" $home
+    "@type" "WebSite"
+    "inLanguage" .Site.Language.Locale
+    "name" .Site.Title
+    "publisher" (dict
+      "@type" "Organization"
+      "name" .Site.Title
+      "url" $home
+    )
+    "url" $home
+  -}}
+  {{- with .Site.Params.description -}}
+    {{- $schema = merge $schema (dict "description" .) -}}
+  {{- end -}}
+{{- else if and .IsPage (eq .Section "posts") -}}
+  {{- $authors := slice -}}
+  {{- range .GetTerms "authors" -}}
+    {{- $authors = $authors | append (dict
+      "@type" "Person"
+      "name" .LinkTitle
+      "url" .Permalink
+    ) -}}
+  {{- end -}}
+  {{- if not $authors -}}
+    {{- errorf "%s must declare at least one author taxonomy term" .File.Path -}}
+  {{- end -}}
+
+  {{- $schema = dict
+    "@context" "https://schema.org"
+    "@type" "Article"
+    "author" $authors
+    "headline" .Title
+    "inLanguage" .Site.Language.Locale
+    "mainEntityOfPage" (dict
+      "@id" .Permalink
+      "@type" "WebPage"
+    )
+    "name" .Title
+    "url" .Permalink
+    "wordCount" .WordCount
+  -}}
+
+  {{- with .CurrentSection.Title -}}
+    {{- $schema = merge $schema (dict "articleSection" .) -}}
+  {{- end -}}
+  {{- with .Description -}}
+    {{- $schema = merge $schema (dict "description" .) -}}
+  {{- end -}}
+  {{- with .PublishDate -}}
+    {{- $schema = merge $schema (dict "datePublished" (.Format "2006-01-02T15:04:05-07:00")) -}}
+  {{- end -}}
+  {{- with .Lastmod -}}
+    {{- $schema = merge $schema (dict "dateModified" (.Format "2006-01-02T15:04:05-07:00")) -}}
+  {{- end -}}
+
+  {{- $keywords := slice -}}
+  {{- range .GetTerms "tags" -}}
+    {{- $keywords = $keywords | append .LinkTitle -}}
+  {{- end -}}
+  {{- with $keywords -}}
+    {{- $schema = merge $schema (dict "keywords" .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $schema }}
+  <script type="application/ld+json">
+    {{- . | jsonify (dict "indent" "  ") | safeJS }}
+  </script>
+{{- end }}

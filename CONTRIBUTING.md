@@ -173,11 +173,18 @@ article, with the archetype's templates already resolved, looks like:
 
 ```yaml
 ---
+authors:
+  - daniel-orbach
 date: 2026-07-21T12:00:00+03:00
 draft: true
 title: The One About Reliable Time Estimates
 ---
 ```
+
+Each entry in `authors` is the stable slug of an author term under `content/authors/`. Hugo uses this taxonomy to
+generate the authors index, each author profile, article-to-author links, and machine-readable authorship metadata.
+Use an array even for a single author so co-authored articles require no schema change. Choose an existing author term
+or add its branch bundle before requesting review; do not put presentation-only profile data in article front matter.
 
 `date` is editorial metadata: it controls the date displayed on the article and its chronological ordering. The author
 may choose it independently of draft creation, review, or deployment time; Git and GitHub retain those operational
