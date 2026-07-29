@@ -48,6 +48,12 @@ environment-specific URLs from the deployment's base URL, so an artifact built f
 Cloudflare preview artifact. Keeping preview delivery separate also prevents preview-only behaviour from changing the
 production publishing path.
 
+Cloudflare serves both an immutable deployment URL and the pull request's mutable branch alias from the origin root.
+The preview build will therefore use the origin root as Hugo's base URL instead of embedding either Cloudflare host.
+Runtime resources and internal links will resolve against whichever deployment served the document, keeping immutable
+deployments independent from later branch-alias updates. Absolute canonical and social metadata are not authoritative
+in preview artifacts; the production build remains responsible for generating them with the published site's URL.
+
 Wrangler Action will receive the workflow's `GITHUB_TOKEN` so the Cloudflare result appears as a native GitHub
 Deployment with its URL and status. Cloudflare configuration and its least-privileged API token will live in a
 dedicated GitHub Environment. The workflow will use that Environment for secrets and variables without creating an
@@ -77,7 +83,10 @@ repository or Environment secrets, and supporting previews for untrusted fork co
 - The Direct Upload project cannot later switch to Cloudflare Git integration; reconsidering that model requires a new
   Pages project.
 - Pull request previews consume GitHub Actions time and build independently from the existing production validation.
-- The production and preview builds intentionally produce separate artifacts because they use different base URLs.
+- The production and preview builds intentionally produce separate artifacts: production uses its published URL while
+  previews use root-relative URLs that resolve within either Cloudflare deployment host.
+- Canonical URLs, social metadata, and feed links in preview artifacts may be relative and are not suitable for
+  indexing. Production continues to generate authoritative absolute URLs.
 - Only pull requests whose code is trusted to run with the preview Environment can receive deployments.
 - Cloudflare preview URLs are public by default, and immutable historical deployments can outlive their review.
   Restricting preview access is tracked in bytes-of-our-lives/blog#28, while retiring stale previews is tracked in
