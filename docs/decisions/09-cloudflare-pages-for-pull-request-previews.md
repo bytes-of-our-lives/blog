@@ -14,6 +14,7 @@ not let reviewers inspect navigation, layout, links, or an article in the contex
 A preview service must:
 
 - Give each pull request a stable URL that follows its latest revision.
+- Render draft and future-dated content so reviewers can inspect unpublished work proposed by the pull request.
 - Keep unmerged changes isolated from the production GitHub Pages site.
 - Preserve GitHub Actions as the authority for the Hugo build instead of maintaining a second build environment.
 - Surface the preview URL and deployment status in the pull request's normal GitHub experience.
@@ -48,11 +49,21 @@ environment-specific URLs from the deployment's base URL, so an artifact built f
 Cloudflare preview artifact. Keeping preview delivery separate also prevents preview-only behaviour from changing the
 production publishing path.
 
+The preview build intentionally includes Hugo draft and future-dated content. Those properties control whether the
+production build publishes an article; they do not define who may read work already committed to this public
+repository. Rendering unpublished content is necessary for reviewers to evaluate the proposed site rather than only
+the subset already eligible for production.
+
 Cloudflare serves both an immutable deployment URL and the pull request's mutable branch alias from the origin root.
 The preview build will therefore use the origin root as Hugo's base URL instead of embedding either Cloudflare host.
 Runtime resources and internal links will resolve against whichever deployment served the document, keeping immutable
 deployments independent from later branch-alias updates. Absolute canonical and social metadata are not authoritative
 in preview artifacts; the production build remains responsible for generating them with the published site's URL.
+
+Preview URLs remain publicly accessible. Cloudflare adds `X-Robots-Tag: noindex` to preview responses, which limits
+normal search indexing but does not restrict direct access. This matches the repository boundary: pull request source
+and history are already public, so the preview is a rendered review artifact rather than a confidentiality control.
+Content requiring confidential or embargoed review must remain outside this repository until disclosure is acceptable.
 
 Wrangler Action will receive the workflow's `GITHUB_TOKEN` so the Cloudflare result appears as a native GitHub
 Deployment with its URL and status. Cloudflare configuration and its least-privileged API token will live in a
@@ -85,12 +96,16 @@ repository or Environment secrets, and supporting previews for untrusted fork co
 - Pull request previews consume GitHub Actions time and build independently from the existing production validation.
 - The production and preview builds intentionally produce separate artifacts: production uses its published URL while
   previews use root-relative URLs that resolve within either Cloudflare deployment host.
+- Preview artifacts intentionally include Hugo draft and future-dated content, while production continues to exclude
+  content that is not eligible for publication.
 - Canonical URLs, social metadata, and feed links in preview artifacts may be relative and are not suitable for
   indexing. Production continues to generate authoritative absolute URLs.
 - Only pull requests whose code is trusted to run with the preview Environment can receive deployments.
-- Cloudflare preview URLs are public by default, and immutable historical deployments can outlive their review.
-  Restricting preview access is tracked in bytes-of-our-lives/blog#28, while retiring stale previews is tracked in
-  bytes-of-our-lives/blog#29. Neither blocks the functional preview capability in bytes-of-our-lives/blog#27.
+- Cloudflare preview URLs are public and excluded from normal search indexing, but anyone with a URL can access and
+  redistribute the rendered content.
+- Immutable historical deployments can outlive their review. Retiring deployments after their pull request closes or
+  merges is tracked in bytes-of-our-lives/blog#29 and does not block the functional preview capability in
+  bytes-of-our-lives/blog#27.
 - A Cloudflare outage can prevent or delay review previews without affecting the production blog.
 
 ## Revisit When
@@ -98,6 +113,9 @@ repository or Environment secrets, and supporting previews for untrusted fork co
 - GitHub Pages supports isolated per-pull-request previews without coupling them to production.
 - Cloudflare supports GitHub Actions workload identity federation, removing the stored deployment credential.
 - Pull requests from untrusted forks need previews.
+- The repository becomes private, or confidential and embargoed review becomes a routine part of the authoring
+  workflow.
+- Public preview access causes demonstrated editorial, legal, or operational harm.
 - Maintaining a separate preview build becomes more costly than allowing Cloudflare to own the build.
 - Cloudflare's pricing, limits, reliability, or Direct Upload support no longer suit the blog.
 - Production hosting moves away from GitHub Pages and one platform can own both production and previews more simply.
