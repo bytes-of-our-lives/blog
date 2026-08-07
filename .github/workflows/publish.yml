@@ -3,7 +3,7 @@
 # ───────────────────
 # Automating the build and deployment process ensures consistent publishing
 # while eliminating manual steps that could introduce errors.
-name: Deploy Hugo Site to GitHub Pages
+name: 🌐 Live Site
 
 # Triggers
 # ───────────────────
