@@ -1,7 +1,7 @@
 # ─────────────────────
 # Pull Request Previews
 # ─────────────────────
-name: Deploy Pull Request Preview
+name: 🔎 Review Sites
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ defaults:
     shell: bash
 
 jobs:
-  deploy:
+  preview:
     # Environment credentials are unavailable to forks and Dependabot.
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
