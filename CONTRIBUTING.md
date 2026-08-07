@@ -79,6 +79,11 @@ hugo server --buildDrafts
 Add `--buildFuture` (or `-F`) when the article's `date` is intentionally in the future; `--buildDrafts` alone still
 hides future-dated content.
 
+`draft: true` keeps an article out of the production site; it does not make the article confidential. Branches, pull
+requests, commit history, and hosted pull request previews are public, and those previews intentionally render draft
+and future-dated content. Keep confidential, embargoed, legally sensitive, or secret material outside this repository
+until it is safe to disclose.
+
 Replace the generated title with the article's _F.R.I.E.N.D.S_-style title. Hugo watches the repository and reloads the
 local site as the article changes.
 

@@ -66,7 +66,10 @@ jobs:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
         run: |
+          # Draft and future content is unpublished, not confidential. Pull
+          # request previews render both so reviewers can inspect it.
           hugo \
+            --buildDrafts \
             --buildFuture \
             --minify \
             --baseURL /

@@ -26,8 +26,8 @@ We sought a solution that:
 
 ## Decision
 
-We decided to power our blog using a GitHub repository with a GitOps-style workflow, explicitly ruling out CMS-based
-solutions and external blogging platforms.
+We decided to power our blog using a public GitHub repository with a GitOps-style workflow, explicitly ruling out
+CMS-based solutions and external blogging platforms.
 
 ### Rationale
 
@@ -37,11 +37,16 @@ solutions and external blogging platforms.
   preserving flexibility and independence.
 - **Scalability and Performance:** static-site hosting platforms inherently eliminate the need for dynamic backend
   infrastructure.
+- **Established Practice:** The [Go blog][go-blog], [Kubernetes blog][kubernetes-blog], and [Rust blog][rust-blog] keep
+  their source in public GitHub repositories, demonstrating that public review is a viable model for technical
+  publications that do not require an editorial embargo.
 
 ## Consequences
 
 - Adopting a Git-based workflow mandates authors to be comfortable with Markdown, Git, and PR-driven processes, which
   may limit participation from less technical contributors.
+- The repository is the disclosure boundary. Confidential or embargoed material remains outside it until publication
+  is safe.
 - We will need to further explore and evaluate specific static-site generators (e.g., Hugo, Next.js, Gatsby, Jekyll) in
   subsequent decision records to determine the best fit.
 - We must also evaluate and choose a deployment platform (e.g., GitHub Actions, Vercel, Netlify) to complement our
@@ -54,3 +59,7 @@ solutions and external blogging platforms.
   tools.
 - Evaluations of static-site generators or deployment platforms significantly influence our workflow direction or
   tooling complexity.
+
+[go-blog]: https://github.com/golang/website/tree/master/_content/blog
+[kubernetes-blog]: https://github.com/kubernetes/website/tree/main/content/en/blog/_posts
+[rust-blog]: https://github.com/rust-lang/blog.rust-lang.org/tree/main/content
