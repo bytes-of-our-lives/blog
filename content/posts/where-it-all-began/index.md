@@ -8,7 +8,7 @@ title: The One Where It All Began
 ---
 
 We are software engineers. We believe the people, their habits, and the way they work together become part of what they
-build. Good work leaves room to disagree, change your mind, laugh, and share the credit.
+build. Good work starts with fundamentals and questions habits. It can be fun, and it can be art.
 
 This blog is a collection of ideas we find worth following through. Some begin by asking why a familiar practice still
 makes sense. Others come from decisions we watched unfold. Sometimes it is just a technical trick worth passing on.
