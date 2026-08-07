@@ -7,21 +7,17 @@ draft: true
 title: The One Where It All Began
 ---
 
-“Maybe the internet would listen.”
+We are software engineers. We believe the people, their habits, and the way they work together become part of what they
+build. Good work leaves room to disagree, change your mind, laugh, and share the credit.
 
-That was our joke when a friend asked what we cared about. We had spent years discussing how software, products, teams,
-and companies get built. Enough of those ideas held up in practice that we thought other people might find them useful.
-As we put it then, we wanted to “share the nontrivial approaches to stuff.”
+This blog is a collection of ideas we find worth following through. Some begin by asking why a familiar practice still
+makes sense. Others come from decisions we watched unfold. Sometimes it is just a technical trick worth passing on.
 
-That does not mean being clever or contrary for sport. Some ideas come from decisions we followed long enough to see
-what happened. Others start by asking why a familiar practice still makes sense instead of repeating what worked at the
-last company. Sometimes it is just a technical trick worth passing on.
+We hope to find others with similar tastes among engineers and founding teams at startups: people who care about why a
+system, product, team, or company works the way it does, and who are willing to revisit the answer. Disagreement is
+welcome; we may change our minds.
 
-We want the work to be good fun. That requires people who can disagree, change their minds, laugh, and share the credit.
-The habits of a team show up in the software it builds.
+Our posts will usually begin with why something mattered, then how we approached it, then what happened. Some will
+question accepted practice and say what we would do instead. Some will be short technical tips.
 
-We write for engineers and founding teams in startups. Expect posts about systems, products, teams, and companies: why
-something mattered, how we approached it, and what happened. Sometimes we will question accepted practice and say what
-we would do instead. Sometimes a short technical tip is enough.
-
-That is enough for a pilot. The rest belongs in the posts.
+A friend once suggested that these conversations should have a life beyond the room. This is where they do.
