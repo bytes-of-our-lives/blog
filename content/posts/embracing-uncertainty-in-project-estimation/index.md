@@ -109,23 +109,25 @@ Industries where a bad estimate means a collapsed bridge or a failed launch figu
 The concepts below—ranges, continuous risk resolution, and bidirectional information flow—are standard practice in systems engineering.
 The only novelty here is applying them to an industry that still thinks a sprint planning poker session is a risk mitigation strategy.
 
-### Preserving Signal: Ranges Over Points
+### Putting Probabilities on Finish Dates
 
 Point estimates are lossy compression.
 When someone says "three days," you've lost information about their confidence, the shape of their uncertainty, and which assumptions matter most.
 Was it "definitely three days" or "probably three, maybe five, could be two if things go well"?
 
-Expressing estimates as probability distributions preserves that signal.
-Instead of asking *"How long will this take?"* ask *"What's the range of time this might take, and what's our confidence in different parts of that range?"*
+Suppose your team is integrating a vendor API and the billing team needs to know when it can start testing.
+You might say, "We think there's a 60% chance the integration will be ready by this Thursday and a 90% chance by next Tuesday.
+We expect the vendor's authentication flow to work as documented, and we've allowed time to try a fallback if it doesn't."
 
-A feature might be "2–5 days, with 80% confidence, assuming the API documentation is accurate and the authentication flow works as described."
-This format communicates not just a number, but the shape of the uncertainty and the conditions under which it holds.
+Your team might use Thursday to plan its own work.
+Billing might plan around Tuesday if it can absorb about a one-in-ten chance of a late handoff.
+If billing needs the integration by Thursday, tell them there's roughly a four-in-ten chance it will arrive late.
+Before making a commitment, test the authentication flow and talk through what a delay would mean for their plans.
 
-Critically, ranges can be integrated.
-When multiple perspectives look at the same work—someone sees technical complexity, someone else sees organizational dependencies, another sees integration risks—their assessments can be synthesized rather than serially transformed.
-The person aware of infrastructure constraints can widen the range at the high end.
-The person who knows the team has prior experience can tighten it.
-The information compounds instead of obscures.
+Those dates should reflect what other people know about the work, too.
+Someone who knows about an upcoming infrastructure change might push the later date out.
+Someone who has done the integration before might recognize a faster way through it.
+When they explain what they know, the team can revise the same forecast and see why it changed.
 
 ### Continuous Risk Resolution
 
@@ -173,8 +175,8 @@ The estimate becomes a shared model, not a number passed between layers.
 This approach doesn't just produce better predictions.
 It changes the nature of planning:
 
-**Explicit assumptions:** When estimates are ranges with stated confidence levels and identified dependencies, assumptions that were previously implicit become discussable.
-Teams can validate them, challenge them, or monitor them as the project progresses.
+**Explicit assumptions:** When teams put probabilities on dates and name the dependencies behind them, everyone can see what the forecast depends on.
+Teams can validate those assumptions, challenge them, or monitor them as the project progresses.
 
 **Risk-driven prioritization:** When you know which uncertainties dominate your distribution, you know where to focus.
 The work that most reduces aggregate uncertainty gets prioritized naturally.
@@ -198,10 +200,10 @@ That single shift, from pinning down a date to surfacing what's unclear, changes
 Instead of negotiating a number that everyone quietly doubts, you're building a shared picture of where the real unknowns live and what to do about them.
 
 Start small.
-Pick one upcoming piece of work and express the estimate as a range with explicit assumptions: "3–7 days, assuming the vendor API behaves as documented."
-Watch what happens.
-People will challenge the assumptions, surface concerns you hadn't considered, and start contributing to the estimate rather than merely receiving it.
-The conversation moves from *when will it be done* to *what could surprise us and how do we find out sooner.*
+Pick one upcoming piece of work.
+Ask when you think you'll probably finish and when you'd feel comfortable asking someone else to plan around it.
+For each date, estimate the chance of finishing by then and say what could change your answer.
+Then pick one assumption you can test before anyone commits.
 
 That's the whole shift.
 Not a new framework, not a certification, not a different flavor of story points.
