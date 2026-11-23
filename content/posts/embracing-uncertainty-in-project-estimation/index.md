@@ -131,21 +131,19 @@ When they explain what they know, the team can revise the same forecast and see 
 
 ### Continuous Risk Resolution
 
-Early in a project, uncertainty is highest.
-The probability distribution is wide, reflecting genuine unknowns.
-The instinctive response is to avoid committing until there's more clarity.
-But waiting for clarity is passive—it leaves uncertainty in place.
+Early in a project, the range of plausible finish dates is often wide.
+Use the time before making a commitment to find out what could change those dates.
 
-The active approach: identify which unknowns contribute most to the width of your distribution, and resolve them first.
-This isn't just "developer focus."
-It's organizational focus.
-If the largest uncertainty is whether a third-party vendor can meet performance requirements, validate that before building the integration layer.
-If it's whether a design pattern will scale, prototype it before committing the architecture.
+Start with the unknowns that could change the forecast the most.
+If you need a vendor to meet a performance target, test it before building the integration.
+If you're counting on a design to scale, prototype it before committing to it.
 
-Each resolved uncertainty narrows the distribution.
-More importantly, it updates the model with ground truth.
-What you learn from tackling the high-risk items informs the assessment of everything downstream.
-The estimate becomes more accurate not because time has passed, but because the shape of the problem becomes clearer.
+Suppose your team tests the vendor's authentication flow and finds it doesn't work as documented.
+The fallback requires vendor approval, and the vendor hasn't said how long that takes.
+Your team's 60% date moves from Thursday to the following Monday.
+Its 90% date moves from next Tuesday to the Tuesday after that.
+The team tells billing why the forecast changed and asks the vendor how long approval usually takes.
+The dates are farther apart now, and the team has a concrete question to follow up on.
 
 This is continuous integration in the literal sense: constantly incorporating new information, refining the model, and propagating that refined understanding both upward and downward through the organization.
 
@@ -178,11 +176,10 @@ It changes the nature of planning:
 **Explicit assumptions:** When teams put probabilities on dates and name the dependencies behind them, everyone can see what the forecast depends on.
 Teams can validate those assumptions, challenge them, or monitor them as the project progresses.
 
-**Risk-driven prioritization:** When you know which uncertainties dominate your distribution, you know where to focus.
-The work that most reduces aggregate uncertainty gets prioritized naturally.
+**Risk-driven prioritization:** Knowing which unknowns could change the forecast helps you decide what to test first.
 
-**Adaptive planning:** As risks resolve and the distribution narrows, commitments can be made with appropriate confidence at appropriate times.
-Early-stage flexibility gives way to late-stage precision, but on a timeline driven by information, not calendar.
+**Adaptive planning:** As the team learns more, it can revisit the dates people are counting on.
+If a date is fixed, a change in the odds can still give people time to adjust scope or prepare for a delay.
 
 **Organizational learning:** Each project becomes a source of calibration data.
 Teams learn which types of uncertainties they consistently underestimate, which buffers are actually necessary, and how their estimates compare to outcomes.
