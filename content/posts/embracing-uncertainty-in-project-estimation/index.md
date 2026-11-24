@@ -135,7 +135,10 @@ The fallback requires vendor approval, and the vendor hasn't said how long that 
 Your team's 60% date moves from Thursday to the following Monday.
 Its 90% date moves from next Tuesday to the Tuesday after that.
 The team tells billing why the forecast changed and asks the vendor how long approval usually takes.
-The dates are farther apart now, and the team has a concrete question to follow up on.
+The dates are farther apart now, and the team knows what to ask the vendor.
+
+Billing had set aside Tuesday for testing, so the delay means rearranging people's schedules.
+Once both teams understand what's holding up the work, they can talk about what billing can still test on Tuesday.
 
 This is continuous integration in the literal sense: constantly incorporating new information, refining the model, and propagating that refined understanding both upward and downward through the organization.
 
@@ -173,9 +176,8 @@ Teams can validate those assumptions, challenge them, or monitor them as the pro
 **Adaptive planning:** As the team learns more, it can revisit the dates people are counting on.
 If a date is fixed, a change in the odds can still give people time to adjust scope or prepare for a delay.
 
-**Organizational learning:** Each project becomes a source of calibration data.
-Teams learn which types of uncertainties they consistently underestimate, which buffers are actually necessary, and how their estimates compare to outcomes.
-The process improves over time.
+**Confidence in the team:** Hearing why a date moved gives people a chance to say what the delay means for their own work.
+It's easier to trust a team that makes time for that conversation, especially when the news is disappointing.
 
 The goal isn't eliminating uncertainty—it's maintaining signal fidelity as uncertainty gets assessed, integrated, and progressively resolved.
 
@@ -192,6 +194,7 @@ Start small.
 Pick one upcoming piece of work.
 Ask when you think you'll probably finish and when you'd feel comfortable asking someone else to plan around it.
 For each date, estimate the chance of finishing by then and say what could change your answer.
+Ask the people planning around those dates what a delay would mean for them.
 Then pick one assumption you can test before anyone commits.
 
 That's the whole shift.
