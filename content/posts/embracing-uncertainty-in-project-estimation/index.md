@@ -22,10 +22,11 @@ What I didn't account for were the sockets' "screw-less" wire plugs.
 Whoever designed them clearly thought they were clever, but they turned my simple task into an hour of struggle.
 By the end, I resorted to brute force and broke the original socket casing to finish the job.
 
-This experience is a perfect example of the problem with time estimates: **we can only hope a task takes the time we imagine before actually doing it.**
+My 15-minute estimate assumed the wires would come out of the old sockets easily.
+I didn't realize I was making that assumption until I was standing in the kitchen with a broken socket.
 
-The same principle applies to software development.
-Wishful thinking and guesswork lead to wildly inaccurate projections: missed deadlines, frustrated teams, and endless explanations to stakeholders.
+On a software team, other people plan around our estimates.
+If all they hear is a number, they're left guessing what has to go right and what could change the estimate.
 
 Full disclosure: when I first started thinking about this, it felt like a genuine revelation.
 Turns out, disciplines that build bridges and launch spacecraft figured this out decades ago.
