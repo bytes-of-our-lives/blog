@@ -3,7 +3,6 @@ authors:
   - daniel-orbach
   - marom-bracha
 date: 2026-08-05
-draft: true
 title: The One Where It All Began
 ---
 
