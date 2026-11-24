@@ -28,13 +28,9 @@ I didn't realize I was making that assumption until I was standing in the kitche
 On a software team, other people plan around our estimates.
 If all they hear is a number, they're left guessing what has to go right and what could change the estimate.
 
-Full disclosure: when I first started thinking about this, it felt like a genuine revelation.
-Turns out, disciplines that build bridges and launch spacecraft figured this out decades ago.
-Systems engineering, construction, aerospace.
-They all plan around what they *don't* know rather than pretending they do.
-Software, somehow, keeps rediscovering this the hard way.
-So if anything in this post strikes you as obvious, congratulations, you're ahead of most of our industry.
-For the rest of us, here's what clicking into place felt like.
+When this first clicked for me, it felt like a revelation.
+Systems engineers have been planning around uncertainty for decades.
+I wanted to see what that habit could do for an ordinary software team.
 
 ## The Problem Space
 
@@ -104,11 +100,6 @@ But reasonable doesn't mean effective.
 
 The alternative isn't simply "better estimates"—it's a fundamentally different relationship with uncertainty.
 Instead of treating estimates as commitments to be defended, treat them as models to be continuously refined through integration of risk from across the organization.
-
-None of what follows is experimental.
-Industries where a bad estimate means a collapsed bridge or a failed launch figured this out long ago: you plan around what you don't know, not around what you hope.
-The concepts below—ranges, continuous risk resolution, and bidirectional information flow—are standard practice in systems engineering.
-The only novelty here is applying them to an industry that still thinks a sprint planning poker session is a risk mitigation strategy.
 
 ### Putting Probabilities on Finish Dates
 
