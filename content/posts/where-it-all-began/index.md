@@ -7,17 +7,20 @@ draft: true
 title: The One Where It All Began
 ---
 
-We are software engineers. We believe the people, their habits, and the way they work together become part of what they
-build. Good work starts with fundamentals and questions habits. It can be fun, and it can be art.
+“Maybe the internet would listen.”
 
-This blog is a collection of ideas we find worth following through. Some begin by asking why a familiar practice still
-makes sense. Others come from decisions we watched unfold. Sometimes it is just a technical trick worth passing on.
+That was our joke when a friend asked what we cared about.
+We’d spent years comparing notes on how software, products, teams, and companies get built.
 
-We hope to find others with similar tastes among engineers and founding teams at startups: people who care about why a
-system, product, team, or company works the way it does, and who are willing to revisit the answer. Disagreement is
-welcome; we may change our minds.
+A team’s habits show up in the software it builds.
+We like going back to fundamentals and asking which habits still help.
+If a practice worked at the last company, what problem did it solve there?
+Do we have the same problem here?
+We also think the work can be fun, and it can be art.
 
-Our posts will usually begin with why something mattered, then how we approached it, then what happened. Some will
-question accepted practice and say what we would do instead. Some will be short technical tips.
+We write for engineers and founding teams at startups.
+When we write about a decision, we’ll start with what was at stake, then get into what we tried and how it turned out.
+Sometimes it’s just a technical trick worth passing on.
 
-A friend once suggested that these conversations should have a life beyond the room. This is where they do.
+A friend once suggested that these conversations should have a life beyond the room.
+This is where they do.
