@@ -68,7 +68,7 @@ Both approaches share a fundamental flaw: they operate with incomplete informati
 Each perspective sees certain risks clearly while being blind to others.
 The challenge isn't choosing between them—it's that neither can succeed in isolation.
 
-### The Work-to-Buffer Ratio
+### How Padding Hides Risk
 
 Here's where estimation processes typically break down: each layer in the organization attempts to "improve" the estimate by adjusting for risks they perceive.
 But rather than integrating these perspectives, the typical flow is sequential transformation—each adjustment obscures what came before.
