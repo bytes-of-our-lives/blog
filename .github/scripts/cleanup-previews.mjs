@@ -8,8 +8,6 @@ const required = (name) => {
 const repository = required('GITHUB_REPOSITORY');
 const account = required('CLOUDFLARE_ACCOUNT_ID');
 const project = required('CLOUDFLARE_PAGES_PROJECT');
-const prNumber = required('PREVIEW_PR');
-assert(/^\d+$/.test(prNumber), 'PREVIEW_PR must be a pull request number');
 
 async function request(url, token, method = 'GET', body) {
   const response = await fetch(url, {
@@ -56,40 +54,67 @@ async function listGithub(path) {
   }
 }
 
-const pull = await github(`pulls/${prNumber}`);
-assert.equal(pull.base.repo.full_name, repository);
-assert.equal(pull.state, 'closed', 'Only closed pull requests can be retired');
-const branch = `pr-${prNumber}`;
+const openPulls = (await listGithub('pulls?state=open'))
+  .filter((pull) => pull.head.repo?.full_name === repository);
+const openBranches = new Set(openPulls.map((pull) => `pr-${pull.number}`));
+const openRefs = new Set(openPulls.map((pull) => pull.head.ref));
+const records = await listGithub('deployments?environment=preview');
 const site = (await cloudflare('')).result;
 const canonicalId = site.canonical_deployment?.id;
 const previews = (await listCloudflare())
-  .filter((deployment) => deployment.deployment_trigger.metadata.branch === branch)
   .sort((a, b) => b.created_on.localeCompare(a.created_on));
-console.log(JSON.stringify({ branch, previews: previews.map(({ id, aliases, url }) => ({ id, aliases, url })) }, null, 2));
+console.log(JSON.stringify({ previews: previews.map(({ id, aliases, url }) => ({ id, aliases, url })) }, null, 2));
 
-// Delete the current aliased revision first, so branch-head deletion is exercised.
+// Retain the last successful revision for each open pull request.
+const retained = new Map();
+for (const deployment of previews) {
+  const branch = deployment.deployment_trigger.metadata.branch;
+  if (openBranches.has(branch) && !retained.has(branch) &&
+      deployment.latest_stage.status === 'success') {
+    retained.set(branch, deployment);
+  }
+}
+const retainedIds = new Set([...retained.values()].map((deployment) => deployment.id));
+const retainedUrls = new Set([...retained.values()].flatMap((deployment) => [
+  deployment.url, ...(deployment.aliases ?? []).map((alias) => `https://${alias}`),
+]));
+let removedCloudflare = 0;
+// Delete retired branch heads first, including their active aliases.
 for (const deployment of previews) {
   assert.equal(deployment.environment, 'preview');
   assert.notEqual(deployment.id, canonicalId, 'Production deployment must be retained');
+  if (retainedIds.has(deployment.id)) continue;
   await cloudflare(`/deployments/${deployment.id}?force=true`, 'DELETE');
   console.log(`Deleted Cloudflare deployment ${deployment.id}`);
+  removedCloudflare++;
 }
-const remaining = (await listCloudflare()).filter((deployment) => deployment.deployment_trigger.metadata.branch === branch);
-assert.equal(remaining.length, 0, 'Cloudflare still lists retired previews');
+const remaining = await listCloudflare();
+assert.deepEqual(new Set(remaining.map((deployment) => deployment.id)), retainedIds);
 
-const records = await listGithub(`deployments?environment=preview&ref=${encodeURIComponent(pull.head.ref)}`);
+const retainedRefs = new Set();
+const retainedRecords = new Set();
+let removedGithub = 0;
 for (const deployment of records) {
   assert.equal(deployment.environment, 'preview');
-  assert.equal(deployment.ref, pull.head.ref);
+  if (openRefs.has(deployment.ref) && !retainedRefs.has(deployment.ref)) {
+    const statuses = await github(`deployments/${deployment.id}/statuses?per_page=100`);
+    if (statuses.some((status) => status.state === 'success' && retainedUrls.has(status.environment_url))) {
+      retainedRefs.add(deployment.ref);
+      retainedRecords.add(deployment.id);
+      continue;
+    }
+  }
   await github(`deployments/${deployment.id}/statuses`, 'POST', {
     state: 'inactive',
     auto_inactive: false,
   });
   await github(`deployments/${deployment.id}`, 'DELETE');
   console.log(`Deleted GitHub deployment ${deployment.id}`);
+  removedGithub++;
 }
-assert.equal((await listGithub(`deployments?environment=preview&ref=${encodeURIComponent(pull.head.ref)}`)).length, 0);
-const summary = `Retired PR #${prNumber}: ${previews.length} Cloudflare deployments and ${records.length} GitHub deployment records.\n`;
+assert.deepEqual(new Set((await listGithub('deployments?environment=preview')).map((deployment) => deployment.id)), retainedRecords);
+assert.equal((await cloudflare('')).result.canonical_deployment?.id, canonicalId);
+const summary = `Removed ${removedCloudflare} Cloudflare deployments and ${removedGithub} GitHub deployment records. Retained ${retainedIds.size} current previews and ${retainedRecords.size} GitHub records for ${openPulls.length} open pull requests.\n`;
 console.log(summary);
 if (process.env.GITHUB_STEP_SUMMARY) {
   const { appendFile } = await import('node:fs/promises');
