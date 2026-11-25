@@ -87,8 +87,7 @@ local site as the article changes.
 
 Before requesting review:
 
-1. Confirm the `draft` flag is intentional; set `draft: false` to publish, or keep it `true` only to merge without
-   publishing yet.
+1. Keep `draft: true` while the article should stay out of the production build.
 2. Confirm the author-curated `date` is intentional; an unintended future date silently keeps the article off the live
    site.
 3. Verify that production output includes or withholds the article as intended.
@@ -146,15 +145,14 @@ such as landing pages or author profiles, can use conventions appropriate to tho
 
 ## Front Matter
 
-The repository's [default archetype][archetype] is the source of truth for required front matter. A newly generated
-article, with the archetype's templates already resolved, looks like:
+The [default archetype][archetype] marks new articles with `draft: true`.
+Omit `draft` when the article is ready to publish, as in this example.
 
 ```yaml
 ---
 authors:
   - daniel-orbach
 date: 2026-07-21T12:00:00+03:00
-draft: true
 title: The One About Reliable Time Estimates
 ---
 ```
