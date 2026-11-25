@@ -39,7 +39,7 @@ const cloudflare = (path, method) => request(
 async function listCloudflare() {
   const deployments = [];
   for (let page = 1; ; page++) {
-    const result = await cloudflare(`/deployments?env=preview&per_page=100&page=${page}`);
+    const result = await cloudflare(`/deployments?env=preview&per_page=25&page=${page}`);
     deployments.push(...result.result);
     if (result.result.length === 0 ||
         page >= (result.result_info?.total_pages ?? Infinity) ||
