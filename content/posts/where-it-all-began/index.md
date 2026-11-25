@@ -6,7 +6,7 @@ date: 2026-08-05
 title: The One Where It All Began
 ---
 
-> Work somewhere long enough and you start thinking about how you’d run the place.
+> Work somewhere long enough and you start thinking about how you’d run the place
 
 We worked together before we started this blog.
 Our conversations often went beyond the scope of our daily jobs.
