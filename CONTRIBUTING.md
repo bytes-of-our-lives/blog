@@ -3,6 +3,10 @@
 We take an article from an initial idea to a published page through a small, explicit GitHub workflow. The originating
 Issue remains the durable coordination record while branches and Pull Requests come and go.
 
+Authors and agents choose how to draft, revise, check, and prepare a Pull Request within the agreed scope.
+The responsible author owns the article’s claims and voice.
+Ask the author when a choice would change their meaning or publication intent.
+
 ## Prerequisites
 
 To write and preview an article locally, you need:
@@ -14,15 +18,10 @@ To write and preview an article locally, you need:
 
 ## Article Lifecycle
 
-### 1. Capture the Idea
+### Article Ideas
 
-Open an Issue with the organization's `Article` [Issue Type][issue-types]. Its title begins with a present-progressive
-verb and describes the intended outcome, such as “Explaining why reliable estimates fail”. Its body should capture:
-
-- The intended audience.
-- The problem, question, or thesis.
-- What readers should understand or be able to do afterwards.
-- An optional early outline.
+Use the organization's `Article` [Issue Type][issue-types] for every new article.
+Describe who the article is for, the question it answers, and what readers should take away.
 
 Assign the Issue to the responsible author.
 To see the articles together, use a saved board view in [repository Issues][articles] filtered to `type:Article` and grouped by [Status][issue-statuses].
@@ -31,20 +30,9 @@ New ideas start in `Backlog`.
 GitHub can move an Issue to `Todo` when a person is assigned and to `In progress` when a draft Pull Request is linked.
 For an existing Issue without a status, choose the one that reflects the work underway.
 
-### 2. Draft the Article
+### Drafting
 
-Create a branch named `article/<topic-slug>`, for example:
-
-```shell
-git switch -c article/reliable-time-estimates
-```
-
-Push the branch after the first meaningful draft commit and link it through the Issue's Development section so
-collaborators can discover the work before a Pull Request exists:
-
-```shell
-git push --set-upstream origin article/reliable-time-estimates
-```
+Link the `article/<topic-slug>` branch in the Issue’s Development section from the first meaningful draft so another author can find the work before review.
 
 Create the article as a Hugo leaf bundle:
 
@@ -83,7 +71,7 @@ until it is safe to disclose.
 Replace the generated title with the article's _F.R.I.E.N.D.S_-style title. Hugo watches the repository and reloads the
 local site as the article changes.
 
-### 3. Request Review
+### Peer Review
 
 Before requesting review:
 
@@ -117,7 +105,7 @@ Obtain one approving review from an author other than the Pull Request author. T
 if repository rules do not enforce it. Conversations may happen synchronously, but decisions and next actions needed
 by asynchronous collaborators must be captured on the Issue or Pull Request.
 
-### 4. Publish and Verify
+### Publication
 
 GitHub Pages tracks deployment in the [Live Site workflow](./.github/workflows/publish.yml).
 The article Issue stays open after merge, including while a draft or future-dated article is waiting to go live.
