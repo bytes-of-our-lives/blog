@@ -33,7 +33,8 @@ Pages-scoped API token [without creating an extra Deployment][environment-withou
 - The current [Pages limits][limits] accommodate the expected preview volume.
 - Preview and production use separate builds and artifacts.
 - Forks and other untrusted pull requests do not receive hosted previews.
-- Deployment records may outlive a review; cleanup after closure or merge is tracked in bytes-of-our-lives/blog#29.
+- Preview updates replace their previous GitHub deployment records and remove superseded Cloudflare revisions after a successful upload.
+- Closing or merging a pull request removes its previews and deployment records while preserving the shared environment and credentials.
 
 ## Revisit When
 
