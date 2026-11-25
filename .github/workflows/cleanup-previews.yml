@@ -1,0 +1,32 @@
+name: 🧹 Retire Review Sites
+
+on:
+  push:
+    branches: [codex/preview-cleanup]
+
+concurrency:
+  group: preview-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: read
+    environment:
+      name: preview
+      deployment: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Retire pull request previews
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+          GITHUB_TOKEN: ${{ github.token }}
+          PREVIEW_PR: '38'
+        run: node .github/scripts/cleanup-previews.mjs
