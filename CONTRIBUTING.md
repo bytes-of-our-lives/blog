@@ -73,37 +73,24 @@ local site as the article changes.
 
 ### Peer Review
 
-Before requesting review:
-
-1. Keep `draft: true` while the article should stay out of the production build.
-2. Confirm the author-curated `date` is intentional; an unintended future date silently keeps the article off the live
-   site.
-3. Verify that production output includes or withholds the article as intended.
-4. Open a Pull Request to `main` and link it to the Issue.
-   GitHub can move the Issue to `In review` when the linked Pull Request is ready for review.
-
-For an article intended to go live, this local smoke test checks that Hugo generates its page.
+For changes that affect publication, check that a clean production build includes or withholds the article as intended.
+Hugo can skip draft or future-dated content even when the build succeeds.
+For example, this checks for a post that should go live.
 
 ```shell
-hugo --environment production --minify --cleanDestinationDir
-test -f public/posts/reliable-time-estimates/index.html
+site_output=$(mktemp -d)
+hugo --environment production --minify --destination "$site_output"
+test -f "$site_output/posts/reliable-time-estimates/index.html"
 ```
 
-Adjust the output path for the article's slug. A successful Hugo process alone is insufficient because Hugo can omit
-draft or future-dated content without failing the build. This is a local smoke test; the required Pull Request build
-remains the merge gate.
+Adjust the path for the article under review.
+In the Pull Request, explain the article’s approach and flag any choices or exclusions that need a reviewer’s attention.
+Report whether the local production build included or withheld the article as intended.
+Link the related article Issue in the Pull Request’s Development section.
+GitHub can move the Issue to `In review` when the linked Pull Request is ready for review.
 
-The Pull Request title begins with an imperative verb describing what the repository will do after merge, such as
-“Publish The One About Reliable Time Estimates”. Its body should:
-
-- Link the originating Issue in the Pull Request’s Development section.
-- Explain the intended shape of the article and any non-obvious choices.
-- Identify useful review focus and meaningful scope exclusions.
-- Record that the local production smoke test passed.
-
-Obtain one approving review from an author other than the Pull Request author. This is a collaboration invariant even
-if repository rules do not enforce it. Conversations may happen synchronously, but decisions and next actions needed
-by asynchronous collaborators must be captured on the Issue or Pull Request.
+An article Pull Request is ready to merge when its required GitHub Actions `build` check passes, review conversations are resolved, and a human author other than the Pull Request author has approved it.
+Record decisions and next actions on the Issue or Pull Request when another contributor needs them to continue the work.
 
 ### Publication
 
@@ -153,8 +140,8 @@ or add its branch bundle before requesting review; do not put presentation-only 
 `date` is editorial metadata: it controls the date displayed on the article and its chronological ordering. The author
 may choose it independently of draft creation, review, or deployment time; Git and GitHub retain those operational
 timestamps. The archetype's generated value is only a starting point, so review it before requesting publication.
-A future `date` is fine when it is deliberate. Because Hugo excludes future-dated content from normal builds, an
-unintended future date silently keeps the article off the live site until that date passes.
+Hugo includes a future-dated article in the first eligible production build on or after its date.
+Reaching that date does not trigger a deployment.
 
 Add optional metadata only when the site templates consume it or the project has explicitly reserved it. When required
 metadata changes, update the archetype and this guide together.
