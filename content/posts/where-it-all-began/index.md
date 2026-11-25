@@ -6,20 +6,21 @@ date: 2026-08-05
 title: The One Where It All Began
 ---
 
-“Maybe the internet would listen.”
+> Work somewhere long enough and you start thinking about how you’d run the place.
 
-That was our joke when a friend asked what we cared about.
-We’d spent years comparing notes on how software, products, teams, and companies get built.
+We worked together before we started this blog.
+Our conversations often went beyond the scope of our daily jobs.
+We had opinions about the company we were helping to build, and we spent time working out what we would do differently.
 
-A team’s habits show up in the software it builds.
-We like going back to fundamentals and asking which habits still help.
-If a practice worked at the last company, what problem did it solve there?
-Do we have the same problem here?
-We also think the work can be fun, and it can be art.
+We’ve since seen some of those ideas put into practice.
+It’s been satisfying to find out which worked and which failed.
+We want to write down how we arrived at them, including the alternatives we considered along the way.
 
-We write for engineers and founding teams at startups.
-When we write about a decision, we’ll start with what was at stake, then get into what we tried and how it turned out.
-Sometimes it’s just a technical trick worth passing on.
+We’ll write about the decisions behind software, products, teams, and companies.
+We’re interested in why a choice made sense at the time, what happened in practice, and how it looks in hindsight.
+The people and their habits are as much a part of that as the code.
 
-A friend once suggested that these conversations should have a life beyond the room.
-This is where they do.
+We write for innovative engineers and founding teams at startups.
+Some posts will follow a decision over time.
+Others will be a technical trick we wish we’d known sooner.
+We’ll put our reasoning on the page so you can judge it for yourself.
