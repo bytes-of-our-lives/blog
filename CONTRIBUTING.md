@@ -3,9 +3,6 @@
 We take an article from an initial idea to a published page through a small, explicit GitHub workflow. The originating
 Issue remains the durable coordination record while branches and Pull Requests come and go.
 
-The [article lifecycle decision][lifecycle] owns the policy and invariants. This guide is its operational summary. A
-policy change starts in the decision record and updates this guide in the same change.
-
 ## Prerequisites
 
 To write and preview an article locally, you need:
@@ -13,7 +10,7 @@ To write and preview an article locally, you need:
 - [Git](https://git-scm.com/downloads) for version control.
 - [Go](https://go.dev/doc/install) for Hugo Modules.
 - The [extended edition of Hugo](https://gohugo.io/installation/) for site generation.
-- GitHub repository write access and permission to add items to the [Articles Project][articles] and edit its Status.
+- GitHub repository write access to push an article branch.
 
 ## Article Lifecycle
 
@@ -27,14 +24,12 @@ verb and describes the intended outcome, such as “Explaining why reliable esti
 - What readers should understand or be able to do afterwards.
 - An optional early outline.
 
-Assign the Issue to the responsible author, add it to the [Articles Project][articles], and set its Project Status to
-Ideation. The Issue owns identity, context, assignee, and terminal outcome; Project Status owns the current phase.
-Keep the Project item through terminal closure; archive it instead of removing it when clearing active views.
+Assign the Issue to the responsible author.
+To see the articles together, use a saved board view in [repository Issues][articles] filtered to `type:Article` and grouped by [Status][issue-statuses].
 
-The Project includes automatic workflows that may apply some Status changes. Treat them as a convenience: the
-responsible author still verifies every transition and corrects the Status when automation does not run as expected.
-GitHub owns native facts such as whether a Pull Request is open or merged, and Pages owns deployment results. If one
-of those facts disagrees with Project Status, the Status is stale and the responsible author corrects it.
+New ideas start in `Backlog`.
+GitHub can move an Issue to `Todo` when a person is assigned and to `In progress` when a draft Pull Request is linked.
+For an existing Issue without a status, choose the one that reflects the work underway.
 
 ### 2. Draft the Article
 
@@ -65,10 +60,11 @@ content/posts/reliable-time-estimates/
 └── diagram.png
 ```
 
-Keep images and other article-specific assets beside `index.md`. Set the Project Status to Drafting when work begins.
-When pausing work, handing it off, or encountering a blocker, comment on the Issue with the next action. Reassign the
-Issue when responsibility changes. Paused or blocked work retains its current semantic phase; the Issue comment makes
-the pause and its next action explicit without adding another Project Status.
+Keep images and other article-specific assets beside `index.md`.
+Use `In progress` while drafting.
+When work pauses, is blocked, or changes hands, record the next action on the Issue.
+Paused and blocked articles keep their current status.
+Reassign the Issue when responsibility changes.
 
 New articles start with `draft: true`. Preview drafts locally with:
 
@@ -95,11 +91,11 @@ Before requesting review:
    publishing yet.
 2. Confirm the author-curated `date` is intentional; an unintended future date silently keeps the article off the live
    site.
-3. Run the local production smoke test below and verify the expected article output exists.
-4. Open a Pull Request to `main` and set the Project Status to In review.
+3. Verify that production output includes or withholds the article as intended.
+4. Open a Pull Request to `main` and link it to the Issue.
+   GitHub can move the Issue to `In review` when the linked Pull Request is ready for review.
 
-Build the site with production settings and confirm the expected article output exists. The smoke test only checks that
-the file was generated, so it needs no base URL:
+For an article intended to go live, this local smoke test checks that Hugo generates its page.
 
 ```shell
 hugo --environment production --minify --cleanDestinationDir
@@ -113,15 +109,10 @@ remains the merge gate.
 The Pull Request title begins with an imperative verb describing what the repository will do after merge, such as
 “Publish The One About Reliable Time Estimates”. Its body should:
 
-- Link the originating Issue with a supported closing keyword such as `Closes #N`.
+- Link the originating Issue in the Pull Request’s Development section.
 - Explain the intended shape of the article and any non-obvious choices.
 - Identify useful review focus and meaningful scope exclusions.
 - Record that the local production smoke test passed.
-
-This repository disables [**Auto-close issues with merged linked pull requests**][auto-close-issues]. The closing
-keyword therefore creates GitHub's native Issue/Pull Request relationship without closing the Issue at merge. The
-author closes the Issue manually only after live verification. Re-enabling that repository setting would violate this
-workflow.
 
 Obtain one approving review from an author other than the Pull Request author. This is a collaboration invariant even
 if repository rules do not enforce it. Conversations may happen synchronously, but decisions and next actions needed
@@ -129,32 +120,14 @@ by asynchronous collaborators must be captured on the Issue or Pull Request.
 
 ### 4. Publish and Verify
 
-After peer approval, merge the Pull Request into `main` and set the Project Status to Publishing. This starts the
-GitHub Pages deployment but does not by itself prove that the article is live.
+GitHub Pages tracks deployment in the [Live Site workflow](./.github/workflows/publish.yml).
+The article Issue stays open after merge, including while a draft or future-dated article is waiting to go live.
+Once the article is available as intended, post an image on the Issue showing what readers can see, such as a screenshot of the live article.
+Then close the Issue as completed (`Done`).
 
-The author monitors the deployment. Publication evidence is a successful Pages deployment from a `main` commit that
-contains the article changes introduced by the Pull Request, followed by live verification. A later successful
-deployment is valid evidence if the first run containing those changes failed or was superseded. When that evidence
-exists:
+### Abandoned Ideas
 
-1. Open the live article and verify it renders correctly.
-2. Add the live URL to the Issue.
-3. Set the Project Status to Published and close the Issue as completed.
-4. Remove the article branch if GitHub did not remove it automatically.
-
-If deployment fails, keep the Issue open in Publishing while a follow-up change repairs it.
-
-### 5. Abandon or Revive Work
-
-When the team decides not to continue an unpublished article, record the reason on the Issue and set the Project Status
-to Abandoned. If the branch contains material worth retaining, open a draft Pull Request, add a final comment that the
-work was abandoned but retained for its history, and close it without merging so the diff remains discoverable.
-Otherwise, record that discarding the draft is intentional. Then remove the branch and close the Issue as not planned;
-Pull Requests do not have Issue close reasons.
-
-An idea can be revived by reopening its Issue when the original context still applies. Restore its archived Project
-item, or re-add it if it was removed, and return the Project Status to Ideation. Move it to Drafting when work resumes,
-and start any new draft or review on a fresh branch and Pull Request.
+If the team drops an article, close its Issue as `Not planned` with a brief reason and a link to any draft worth keeping.
 
 ## Naming Conventions
 
@@ -207,7 +180,7 @@ metadata changes, update the archetype and this guide together.
 - Use Markdown and Hugo shortcodes where they improve the article.
 - Prefer clarity over cleverness.
 
-For the reasoning behind this workflow, read [the article lifecycle decision][lifecycle].
+The [article lifecycle decision][lifecycle] describes the original workflow with the Articles Project.
 
 ## Maintaining the Site
 
@@ -245,7 +218,7 @@ stable Hugo to surface compatibility problems. Maintainers review upstream relea
 checks above, and preview representative pages before merging an upgrade.
 
 [archetype]: ./archetypes/default.md
-[articles]: https://github.com/orgs/bytes-of-our-lives/projects/2
-[auto-close-issues]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-auto-closing-issues
+[articles]: https://github.com/bytes-of-our-lives/blog/issues
+[issue-statuses]: https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issue-statuses
 [issue-types]: https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/managing-issue-types-in-an-organization
 [lifecycle]: ./docs/decisions/08-async-content-lifecycle-with-github.md
