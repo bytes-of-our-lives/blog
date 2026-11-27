@@ -3,6 +3,10 @@
 We take an article from an initial idea to a published page through a small, explicit GitHub workflow. The originating
 Issue remains the durable coordination record while branches and Pull Requests come and go.
 
+Authors and agents choose how to draft, revise, check, and prepare a Pull Request within the agreed scope.
+The responsible author owns the article’s claims and voice.
+Ask the author when a choice would change their meaning or publication intent.
+
 ## Prerequisites
 
 To write and preview an article locally, you need:
@@ -14,15 +18,10 @@ To write and preview an article locally, you need:
 
 ## Article Lifecycle
 
-### 1. Capture the Idea
+### Article Ideas
 
-Open an Issue with the organization's `Article` [Issue Type][issue-types]. Its title begins with a present-progressive
-verb and describes the intended outcome, such as “Explaining why reliable estimates fail”. Its body should capture:
-
-- The intended audience.
-- The problem, question, or thesis.
-- What readers should understand or be able to do afterwards.
-- An optional early outline.
+Use the organization's `Article` [Issue Type][issue-types] for every new article.
+Describe who the article is for, the question it answers, and what readers should take away.
 
 Assign the Issue to the responsible author.
 To see the articles together, use a saved board view in [repository Issues][articles] filtered to `type:Article` and grouped by [Status][issue-statuses].
@@ -31,20 +30,9 @@ New ideas start in `Backlog`.
 GitHub can move an Issue to `Todo` when a person is assigned and to `In progress` when a draft Pull Request is linked.
 For an existing Issue without a status, choose the one that reflects the work underway.
 
-### 2. Draft the Article
+### Drafting
 
-Create a branch named `article/<topic-slug>`, for example:
-
-```shell
-git switch -c article/reliable-time-estimates
-```
-
-Push the branch after the first meaningful draft commit and link it through the Issue's Development section so
-collaborators can discover the work before a Pull Request exists:
-
-```shell
-git push --set-upstream origin article/reliable-time-estimates
-```
+Link the `article/<topic-slug>` branch in the Issue’s Development section from the first meaningful draft so another author can find the work before review.
 
 Create the article as a Hugo leaf bundle:
 
@@ -83,42 +71,28 @@ until it is safe to disclose.
 Replace the generated title with the article's _F.R.I.E.N.D.S_-style title. Hugo watches the repository and reloads the
 local site as the article changes.
 
-### 3. Request Review
+### Peer Review
 
-Before requesting review:
-
-1. Confirm the `draft` flag is intentional; set `draft: false` to publish, or keep it `true` only to merge without
-   publishing yet.
-2. Confirm the author-curated `date` is intentional; an unintended future date silently keeps the article off the live
-   site.
-3. Verify that production output includes or withholds the article as intended.
-4. Open a Pull Request to `main` and link it to the Issue.
-   GitHub can move the Issue to `In review` when the linked Pull Request is ready for review.
-
-For an article intended to go live, this local smoke test checks that Hugo generates its page.
+For changes that affect publication, check that a clean production build includes or withholds the article as intended.
+Hugo can skip draft or future-dated content even when the build succeeds.
+For example, this checks for a post that should go live.
 
 ```shell
-hugo --environment production --minify --cleanDestinationDir
-test -f public/posts/reliable-time-estimates/index.html
+site_output=$(mktemp -d)
+hugo --environment production --minify --destination "$site_output"
+test -f "$site_output/posts/reliable-time-estimates/index.html"
 ```
 
-Adjust the output path for the article's slug. A successful Hugo process alone is insufficient because Hugo can omit
-draft or future-dated content without failing the build. This is a local smoke test; the required Pull Request build
-remains the merge gate.
+Adjust the path for the article under review.
+In the Pull Request, explain the article’s approach and flag any choices or exclusions that need a reviewer’s attention.
+Report whether the local production build included or withheld the article as intended.
+Link the related article Issue in the Pull Request’s Development section.
+GitHub can move the Issue to `In review` when the linked Pull Request is ready for review.
 
-The Pull Request title begins with an imperative verb describing what the repository will do after merge, such as
-“Publish The One About Reliable Time Estimates”. Its body should:
+An article Pull Request is ready to merge when its required GitHub Actions `build` check passes, review conversations are resolved, and a human author other than the Pull Request author has approved it.
+Record decisions and next actions on the Issue or Pull Request when another contributor needs them to continue the work.
 
-- Link the originating Issue in the Pull Request’s Development section.
-- Explain the intended shape of the article and any non-obvious choices.
-- Identify useful review focus and meaningful scope exclusions.
-- Record that the local production smoke test passed.
-
-Obtain one approving review from an author other than the Pull Request author. This is a collaboration invariant even
-if repository rules do not enforce it. Conversations may happen synchronously, but decisions and next actions needed
-by asynchronous collaborators must be captured on the Issue or Pull Request.
-
-### 4. Publish and Verify
+### Publication
 
 GitHub Pages tracks deployment in the [Live Site workflow](./.github/workflows/publish.yml).
 The article Issue stays open after merge, including while a draft or future-dated article is waiting to go live.
@@ -146,15 +120,14 @@ such as landing pages or author profiles, can use conventions appropriate to tho
 
 ## Front Matter
 
-The repository's [default archetype][archetype] is the source of truth for required front matter. A newly generated
-article, with the archetype's templates already resolved, looks like:
+The [default archetype][archetype] marks new articles with `draft: true`.
+Omit `draft` when the article is ready to publish, as in this example.
 
 ```yaml
 ---
 authors:
   - daniel-orbach
 date: 2026-07-21T12:00:00+03:00
-draft: true
 title: The One About Reliable Time Estimates
 ---
 ```
@@ -167,8 +140,8 @@ or add its branch bundle before requesting review; do not put presentation-only 
 `date` is editorial metadata: it controls the date displayed on the article and its chronological ordering. The author
 may choose it independently of draft creation, review, or deployment time; Git and GitHub retain those operational
 timestamps. The archetype's generated value is only a starting point, so review it before requesting publication.
-A future `date` is fine when it is deliberate. Because Hugo excludes future-dated content from normal builds, an
-unintended future date silently keeps the article off the live site until that date passes.
+Hugo includes a future-dated article in the first eligible production build on or after its date.
+Reaching that date does not trigger a deployment.
 
 Add optional metadata only when the site templates consume it or the project has explicitly reserved it. When required
 metadata changes, update the archetype and this guide together.
